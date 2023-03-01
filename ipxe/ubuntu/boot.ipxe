@@ -1,0 +1,12 @@
+#!ipxe
+
+ifopen net0
+set net0/ip {{public_ip}}
+set net0/netmask {{net_mask}}
+set net0/gateway {{gateway}}
+set nfs_server 177.54.147.100
+set nfs_path /mnt/nfs_share/ubuntu-22.04.1-live-server-amd64
+kernel nfs://${nfs_server}:${nfs_path}/casper/vmlinuz || read void
+initrd nfs://${nfs_server}:${nfs_path}/casper/initrd || read void
+imgargs vmlinuz initrd=initrd boot=casper maybe-ubiquity netboot=nfs nfsroot=${nfs_server}:${nfs_path} ip={{public_ip}}::{{gateway}}:{{net_mask}}::enp1s0f0:off || read void
+boot || read void
