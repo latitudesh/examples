@@ -4,6 +4,7 @@ ifopen net0
 set net0/ip {{public_ip}}
 set net0/netmask {{net_mask}}
 set net0/gateway {{gateway}}
+set dns 8.8.8.8
 set nfs_server 177.54.147.100
 set nfs_path /mnt/nfs_share/ubuntu-22.04.1-live-server-amd64
 kernel nfs://${nfs_server}:${nfs_path}/casper/vmlinuz || read void
