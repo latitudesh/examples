@@ -1,16 +1,13 @@
 #!ipxe
 
-
 ifopen net0
 set net0/ip {{public_ip}}
 set net0/netmask {{net_mask}}
 set net0/gateway {{gateway}}
 set dns 8.8.8.8
 
-set http_server 177.54.147.100
-set base-url http://${http_server}/flatcar
+set base-url https://stable.release.flatcar-linux.net/amd64-usr/current
+kernel ${base-url}/flatcar_production_pxe.vmlinuz initrd=flatcar_production_pxe_image.cpio.gz console=tty0 console=ttyS0 flatcar.autologin ip={{public_ip}}::{{gateway}}:{{net_mask}}::enp1s0f0:off:8.8.8.8
+initrd ${base-url}/flatcar_production_pxe_image.cpio.gz
 
-
-kernel ${base-url}/flatcar_production_pxe.vmlinuz initrd=flatcar_production_pxe_image.cpio.gz flatcar.first_boot=1 ip={{public_ip}}::{{gateway}}:{{net_mask}}::enp1s0f0:off:8.8.8.8 console=tty0 console=ttyS0 flatcar.authlogin=ttyS0 flatcar.authlogin=tty0 ignition.config.url=http://${http_server}/flatcar/pxe-config.ign | shell
-initrd ${base-url}/flatcar_production_pxe_image.cpio.gz 
 boot
