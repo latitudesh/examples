@@ -6,6 +6,6 @@ set net0/netmask {{net_mask}}
 set net0/gateway {{gateway}}
 set dns 8.8.8.8
 
-kernel http://edgeuno-bog2.mm.fcix.net/fedora/linux/releases/37/Everything/x86_64/os/images/pxeboot/vmlinuz inst.repo=http://edgeuno-bog2.mm.fcix.net/fedora/linux/releases/37/Everything/x86_64/os/ initrd=initrd.img ip={{public_ip}}::{{gateway}}:{{net_mask}}::enp1s0:off:8.8.8.8
+kernel http://edgeuno-bog2.mm.fcix.net/fedora/linux/releases/37/Everything/x86_64/os/images/pxeboot/vmlinuz inst.repo=http://edgeuno-bog2.mm.fcix.net/fedora/linux/releases/37/Everything/x86_64/os/ initrd=initrd.img ip={{public_ip}}::{{gateway}}:{{net_mask}}::enp1s0f0:off:8.8.8.8
 initrd http://edgeuno-bog2.mm.fcix.net/fedora/linux/releases/37/Everything/x86_64/os/images/pxeboot/initrd.img
 boot
