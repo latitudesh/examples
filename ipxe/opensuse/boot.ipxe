@@ -1,9 +1,9 @@
 #!ipxe
 
 ifopen net0
-set net0/ip {{public_ip}}
-set net0/netmask {{netmask}}
-set net0/gateway {{gateway}}
+set net0/ip {{ PUBLIC_IP }}
+set net0/netmask 255.255.255.0
+set net0/gateway {{ PUBLIC_GW }}
 set dns 8.8.8.8
 
 kernel http://download.opensuse.org/distribution/leap/15.4/repo/oss/243.2-boot/x86_64/loader/linux
