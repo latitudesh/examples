@@ -1,0 +1,15 @@
+#!ipxe
+
+ifopen net0
+set net0/ip {{ PUBLIC_IP }}
+set net0/netmask 255.255.255.0
+set net0/gateway {{ PUBLIC_GW }}
+set dns 8.8.8.8
+
+kernel http://177.54.147.100/clonezilla/live/vmlinuz boot=live config noswap nolocales edd=on nomodeset vga=788 net.ifnames=0 nosplash noprompt ip=eth0:{{ PUBLIC_IP }}:255.255.255.0:{{ PUBLIC_GW }}:8.8.8.8 root=/dev/nfs nfsroot=177.54.147.100:/mnt/nfs_share/clonezilla
+initrd http://177.54.147.100/clonezilla/live/initrd.img
+
+boot
+
+
+
