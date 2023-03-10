@@ -8,6 +8,6 @@ set dns 8.8.8.8
 
 kernel http://download.opensuse.org/distribution/leap/15.4/repo/oss/243.2-boot/x86_64/loader/linux
 initrd http://download.opensuse.org/distribution/leap/15.4/repo/oss/243.2-boot/x86_64/loader/initrd
-imgargs linux install=http://download.opensuse.org/distribution/leap/15.4/repo/oss/ hostip=${net0/ip} netmask=${net0/netmask} gateway=${net0/gateway} nameserver=${dns}
+imgargs linux install=http://download.opensuse.org/distribution/leap/15.4/repo/oss/ ifcfg=eth0="{{ PUBLIC_IP }}/24,{{ PUBLIC_GW }},8.8.8.8"
 
 boot
