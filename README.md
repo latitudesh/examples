@@ -5,4 +5,4 @@
 
 This repository contains examples of how to use advanced [Latitude.sh](https://www.latitude.sh) features.
 
-- iPXE - Examples on how to deploy custom operating system images using iPXE. You can use this to deploy your own images to the Latitude.sh platform.
+- Custom images - Examples on how to deploy custom operating system images using iPXE. Use this to deploy your own images.
