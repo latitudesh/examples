@@ -1,13 +1,16 @@
 #!ipxe
 
-ifopen net0
-set net0/ip {{ PUBLIC_IP }}
-set net0/netmask 255.255.255.0
-set net0/gateway {{ PUBLIC_GW }}
-set dns 8.8.8.8
-set nfs_server {{ NFS_SERVER }}
-set nfs_path {{ NFS_PATH }}
+ifopen net{{ INTERFACE_ID }}
+set net{{ INTERFACE_ID }}/ip {{ PUBLIC_IP }}
+set net{{ INTERFACE_ID }}/netmask 255.255.255.0
+set net{{ INTERFACE_ID }}/gateway {{ PUBLIC_GW }}
+set net{{ INTERFACE_ID }}/dns 8.8.8.8
+
+set nfs_server MY_NFS_ADDRESS # MY_NFS_ADDRESS should be replaced with a public ip from an nfs server that provides the available installation files.
+set nfs_path MY_NFS_PATH # MY_NFS_PATH should be replaced with the directory path containing the installation files.
+
 kernel nfs://${nfs_server}:${nfs_path}/casper/vmlinuz || read void
 initrd nfs://${nfs_server}:${nfs_path}/casper/initrd || read void
 imgargs vmlinuz initrd=initrd boot=casper maybe-ubiquity netboot=nfs nfsroot=${nfs_server}:${nfs_path} ip={{ PUBLIC_IP }}::{{ PUBLIC_GW }}:255.255.255.0::enp1s0f0:off || read void
 boot || read void
+

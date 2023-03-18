@@ -6,6 +6,6 @@ set net{{ INTERFACE_ID }}/netmask 255.255.255.0
 set net{{ INTERFACE_ID }}/gateway {{ PUBLIC_GW }}
 set net{{ INTERFACE_ID }}/dns 8.8.8.8
 
-kernel http://mirror.facebook.net/fedora/linux/releases/37/Everything/x86_64/os/images/pxeboot/vmlinuz inst.repo=http://mirror.facebook.net/fedora/linux/releases/37/Everything/x86_64/os/ initrd=initrd.img net.ifnames=0 biosdevname=0 ip={{ PUBLIC_IP }}::{{ PUBLIC_GW }}:255.255.255.0::eth{{ INTERFACE_ID }}:off:8.8.8.8
-initrd http://mirror.facebook.net/fedora/linux/releases/37/Everything/x86_64/os/images/pxeboot/initrd.img
+kernel http://download-ib01.fedoraproject.org/pub/fedora/linux/releases/37/Everything/x86_64/os/images/pxeboot/vmlinuz inst.repo=http://download-ib01.fedoraproject.org/pub/fedora/linux/releases/37/Everything/x86_64/os/ initrd=initrd.img ip={{ PUBLIC_IP }}::{{ PUBLIC_GW }}:255.255.255.0::enp1s0f{{ INTERFACE_ID }}:off:8.8.8.8
+initrd http://download-ib01.fedoraproject.org/pub/fedora/linux/releases/37/Everything/x86_64/os/images/pxeboot/initrd.img
 boot
