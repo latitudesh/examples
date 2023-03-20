@@ -1,11 +1,11 @@
 #!ipxe
 
-ifopen net0
-set net0/ip {{ PUBLIC_IP }}
-set net0/netmask 255.255.255.0
-set net0/gateway {{ PUBLIC_GW }}
-set dns 8.8.8.8
+ifopen net{{ INTERFACE_ID }}
+set net{{ INTERFACE_ID }}/ip {{ PUBLIC_IP }}
+set net{{ INTERFACE_ID }}/netmask 255.255.255.0
+set net{{ INTERFACE_ID }}/gateway {{ PUBLIC_GW }}
+set net{{ INTERFACE_ID }}/dns 8.8.8.8
 
-kernel http://edgeuno-bog2.mm.fcix.net/fedora/linux/releases/37/Everything/x86_64/os/images/pxeboot/vmlinuz inst.repo=http://edgeuno-bog2.mm.fcix.net/fedora/linux/releases/37/Everything/x86_64/os/ initrd=initrd.img ip={{ PUBLIC_IP }}::{{ PUBLIC_GW }}:255.255.255.0::enp1s0f0:off:8.8.8.8
-initrd http://edgeuno-bog2.mm.fcix.net/fedora/linux/releases/37/Everything/x86_64/os/images/pxeboot/initrd.img
+kernel http://download-ib01.fedoraproject.org/pub/fedora/linux/releases/37/Everything/x86_64/os/images/pxeboot/vmlinuz inst.repo=http://download-ib01.fedoraproject.org/pub/fedora/linux/releases/37/Everything/x86_64/os/ initrd=initrd.img ip={{ PUBLIC_IP }}::{{ PUBLIC_GW }}:255.255.255.0::enp1s0f{{ INTERFACE_ID }}:off:8.8.8.8
+initrd http://download-ib01.fedoraproject.org/pub/fedora/linux/releases/37/Everything/x86_64/os/images/pxeboot/initrd.img
 boot
