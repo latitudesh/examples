@@ -1,0 +1,6 @@
+#cloud-config
+
+apt:
+ primary:
+  - arches: [default]
+    uri: http://us.archive.ubuntu.com/ubuntu/

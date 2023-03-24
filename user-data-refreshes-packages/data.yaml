@@ -1,0 +1,3 @@
+#cloud-config
+# This is the same as running apt-get update.
+package_update: true
