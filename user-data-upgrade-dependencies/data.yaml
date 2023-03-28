@@ -1,0 +1,3 @@
+#cloud-config
+# This is the same as running run apt-get upgrade or yum upgrade
+package_upgrade: true
