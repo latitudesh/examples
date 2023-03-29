@@ -1,0 +1,11 @@
+#!ipxe
+
+ifopen net{{ INTERFACE_ID }}
+set net{{ INTERFACE_ID }}/ip {{ PUBLIC_IP }}
+set net{{ INTERFACE_ID }}/netmask 255.255.255.0
+set net{{ INTERFACE_ID }}/gateway {{ PUBLIC_GW }}
+set net{{ INTERFACE_ID }}/dns 8.8.8.8
+
+kernel http://mirror.siena.edu/centos-stream/9-stream/BaseOS/x86_64/os/images/pxeboot/vmlinuz inst.repo=http://mirror.siena.edu/centos-stream/9-stream/BaseOS/x86_64/os/ initrd=initrd.img net.ifnames=0 biosdevname=0 ip={{ PUBLIC_IP }}::{{ PUBLIC_GW }}:255.255.255.0::eth{{ INTERFACE_ID }}:off:8.8.8.8
+initrd http://mirror.siena.edu/centos-stream/9-stream/BaseOS/x86_64/os/images/pxeboot/initrd.img
+boot
