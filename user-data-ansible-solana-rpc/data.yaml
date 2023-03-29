@@ -1,0 +1,12 @@
+#cloud-config
+
+apt_update: true
+
+packages:
+  - ansible
+  - git
+
+runcmd:
+  - git clone https://github.com/overclock-validator/autoclock-rpc.git /home/ubuntu/autoclock-rpc
+  - chown -R ubuntu:ubuntu /home/ubuntu/autoclock-rpc
+  - su - ubuntu -c 'cd /home/ubuntu/autoclock-rpc && ansible-playbook runner.yaml'
