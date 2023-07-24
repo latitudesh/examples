@@ -39,6 +39,7 @@ variable "ssh_key_id" {
   default = ""
 }
 
-variable "private_key" {
-  description = "The private key added content for the SSH Key above. This is used to connect to the instances and install the cluster."
+variable "private_key_path" {
+  description = "The path to the private key on your computer. This is used to connect to the instances and install the cluster."
+  default     = "~/.ssh/id_rsa"
 }
