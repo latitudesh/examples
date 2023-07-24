@@ -35,7 +35,7 @@ variable "nomad_vlan_id" {
 }
 
 // SSH Keys
-variable "service_account_ssh_key_id" {
+variable "ssh_key_id" {
   default = ""
 }
 
