@@ -5,7 +5,7 @@ resource "latitudesh_server" "nomad_servers" {
   site             = var.nomad_region
   plan             = var.plan
   project          = var.project_id
-  ssh_keys         = [var.service_account_ssh_key_id]
+  ssh_keys         = [var.ssh_key_id]
 
   provisioner "file" {
 

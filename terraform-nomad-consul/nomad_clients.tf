@@ -5,7 +5,7 @@ resource "latitudesh_server" "nomad_clients" {
   site             = var.nomad_region
   plan             = "c2-small-x86"
   project          = var.project_id
-  ssh_keys         = [var.service_account_ssh_key_id]
+  ssh_keys         = [var.ssh_key_id]
 
   depends_on = [latitudesh_server.nomad_servers]
 
