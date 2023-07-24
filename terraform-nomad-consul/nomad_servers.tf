@@ -12,7 +12,7 @@ resource "latitudesh_server" "nomad_servers" {
     connection {
       host        = self.primary_ipv4
       user        = "ubuntu"
-      private_key = var.private_key_path
+      private_key = var.private_key
     }
 
     source      = "nomad-setup-scripts/nomad-installations.sh"
@@ -24,7 +24,7 @@ resource "latitudesh_server" "nomad_servers" {
     connection {
       host        = self.primary_ipv4
       user        = "ubuntu"
-      private_key = var.private_key_path
+      private_key = var.private_key
     }
 
     inline = [
@@ -44,7 +44,7 @@ resource "null_resource" "nomad_servers_post_script" {
     connection {
       host        = latitudesh_server.nomad_servers[count.index].primary_ipv4
       user        = "ubuntu"
-      private_key = var.private_key_path
+      private_key = var.private_key
     }
 
     source      = "nomad-setup-scripts/nomad-server-setup.sh"
@@ -56,7 +56,7 @@ resource "null_resource" "nomad_servers_post_script" {
     connection {
       host        = latitudesh_server.nomad_servers[count.index].primary_ipv4
       user        = "ubuntu"
-      private_key = var.private_key_path
+      private_key = var.private_key
     }
 
     inline = [

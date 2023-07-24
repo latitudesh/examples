@@ -30,7 +30,7 @@ variable "nomad_region" {
 }
 
 variable "nomad_vlan_id" {
-  description = "Value of the VLAN ID (VID) to use for the Nomad/Consul instances"
+  description = "Value of the VLAN ID (VID) to use for the Nomad/Consul instances."
   default     = ""
 }
 
@@ -39,6 +39,6 @@ variable "ssh_key_id" {
   default = ""
 }
 
-variable "private_key_path" {
-  default = ""
+variable "private_key" {
+  description = "Path to the private key to use for SSH access to the instances."
 }
