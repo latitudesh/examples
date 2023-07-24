@@ -11,6 +11,7 @@ variable "project_id" {
 // Plan
 variable "plan" {
   description = "Plan to use for deployment. Plan is the instance type slug. You can find this in the /plans endpoint of the API."
+  default     = ""
 }
 
 // Nomad setup
