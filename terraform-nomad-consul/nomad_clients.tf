@@ -13,7 +13,7 @@ resource "latitudesh_server" "nomad_clients" {
     type        = "ssh"
     user        = "ubuntu"
     host        = self.primary_ipv4
-    private_key = file(var.private_key_path)
+    private_key = var.private_key_path
   }
 
   provisioner "file" {
@@ -38,7 +38,7 @@ resource "null_resource" "nomad_clients_post_script" {
     type        = "ssh"
     user        = "ubuntu"
     host        = latitudesh_server.nomad_clients[count.index].primary_ipv4
-    private_key = file(var.private_key_path)
+    private_key = var.private_key_path
   }
 
 
