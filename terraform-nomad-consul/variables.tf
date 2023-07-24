@@ -40,5 +40,5 @@ variable "ssh_key_id" {
 }
 
 variable "private_key" {
-  description = "Path to the private key to use for SSH access to the instances."
+  description = "The private key added content for the SSH Key above. This is used to connect to the instances and install the cluster."
 }
