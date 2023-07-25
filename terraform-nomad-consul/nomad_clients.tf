@@ -51,7 +51,7 @@ resource "null_resource" "nomad_clients_post_script" {
     inline = [
       # Add executable permission to the script, the execute it.
       "chmod +x /tmp/nomad-client-setup.sh",
-      "sudo /tmp/nomad-client-setup.sh ${count.index + 51} ${var.nomad_server_count} ${var.nomad_region} ${var.nomad_vlan_id}"
+      "sudo /tmp/nomad-client-setup.sh ${count.index + 10} ${var.nomad_server_count} ${var.nomad_region} ${var.nomad_vlan_id}"
     ]
   }
 }
