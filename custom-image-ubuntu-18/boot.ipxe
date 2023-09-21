@@ -1,0 +1,12 @@
+#!ipxe
+
+ifopen net{{ INTERFACE_ID }}
+set net{{ INTERFACE_ID }}/ip {{ PUBLIC_IP }}
+set net{{ INTERFACE_ID }}/netmask 255.255.255.0
+set net{{ INTERFACE_ID }}/gateway {{ PUBLIC_GW }}
+set net{{ INTERFACE_ID }}/dns 8.8.8.8
+
+kernel http://archive.ubuntu.com/ubuntu/dists/bionic-updates/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/linux ipv6.disable=1 modprobe.blacklist=rndis_host netcfg/disable_autoconfig=true netcfg/choose_interface=${net{{ INTERFACE_ID }}/mac} netcfg/get_ipaddress={{ PUBLIC_IP }} netcfg/get_netmask=255.255.255.0 netcfg/get_gateway={{ PUBLIC_GW }} netcfg/get_nameservers=8.8.8.8 netcfg/confirm_static=true
+initrd http://archive.ubuntu.com/ubuntu/dists/bionic-updates/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/initrd.gz
+boot
+
