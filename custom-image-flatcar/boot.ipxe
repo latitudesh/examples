@@ -2,12 +2,12 @@
 
 ifopen net{{ INTERFACE_ID }}
 set net{{ INTERFACE_ID }}/ip {{ PUBLIC_IP }}
-set net{{ INTERFACE_ID }}/netmask 255.255.255.0
+set net{{ INTERFACE_ID }}/netmask {{ NETMASK }}
 set net{{ INTERFACE_ID }}/gateway {{ PUBLIC_GW }}
 set net{{ INTERFACE_ID }}/dns 8.8.8.8
 
 set base-url https://stable.release.flatcar-linux.net/amd64-usr/current
-kernel ${base-url}/flatcar_production_pxe.vmlinuz initrd=flatcar_production_pxe_image.cpio.gz console=tty0 console=ttyS0 flatcar.autologin ip={{ PUBLIC_IP }}::{{ PUBLIC_GW }}:255.255.255.0::enp1s0f{{ INTERFACE_ID }}:off:8.8.8.8
+kernel ${base-url}/flatcar_production_pxe.vmlinuz initrd=flatcar_production_pxe_image.cpio.gz console=tty0 console=ttyS0 flatcar.autologin ip={{ PUBLIC_IP }}::{{ PUBLIC_GW }}:{{ NETMASK }}::enp1s0f{{ INTERFACE_ID }}:off:8.8.8.8
 initrd ${base-url}/flatcar_production_pxe_image.cpio.gz
 
 boot
