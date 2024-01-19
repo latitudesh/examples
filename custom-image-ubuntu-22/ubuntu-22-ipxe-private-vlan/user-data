@@ -1,0 +1,38 @@
+#cloud-config
+autoinstall:
+  version: 1
+  identity:
+    hostname: private-ipxe-client
+    username: ubuntu
+    password: $ENCRYPTED_PASSWORD 
+  ssh:
+    install-server: yes
+    authorized-keys:
+      - $SSH_KEY
+    allow-pw: true
+  network:
+    network:
+      version: 2
+      ethernets:
+        enp1s0f0:
+          dhcp4: no
+          addresses: [$PUBLIC_IP]
+          gateway4: $PUBLIC_GATEWAY
+          nameservers:
+            addresses: [8.8.8.8, 8.8.4.4]
+  storage:
+    layout:
+      name: direct
+    config:
+      - {ptable: msdos, path: /dev/sda, preserve: false, name: '', grub_device: true, type: disk, id: disk-sda}
+      - {device: disk-sda, size: 1G, format: ext4, type: partition, id: partition-sda1}
+      - {device: disk-sda, size: 1G, format: swap, type: partition, id: partition-sda2}
+      - {device: disk-sda, size: -1, format: ext4, type: partition, id: partition-sda3}
+      - {fstype: ext4, volume: partition-sda1, preserve: false, type: format, id: format-0}
+      - {fstype: swap, volume: partition-sda2, preserve: false, type: format, id: format-1}
+      - {fstype: ext4, volume: partition-sda3, preserve: false, type: format, id: format-2}
+      - {device: format-0, path: /, type: mount, id: mount-1}
+      - {device: format-2, path: /home, type: mount, id: mount-2}
+  packages:
+    - curl
+    - vim
