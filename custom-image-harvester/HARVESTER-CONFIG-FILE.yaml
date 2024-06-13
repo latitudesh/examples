@@ -1,0 +1,32 @@
+scheme_version: 1
+token: {{CLUSTER-TOKEN}}            
+os:
+  hostname: {{HOSTNAME}}      # Set a hostname. This can be omitted if DHCP server offers hostnames.
+  ssh_authorized_keys:
+  - {{SSH_PUBLIC_KEY}}
+  password: {{ENCRYPTED_PASSWORD}}
+  ntp_servers:
+  - 0.suse.pool.ntp.org
+  - 1.suse.pool.ntp.org
+  dns_nameservers:
+    - 8.8.8.8
+    - 1.1.1.1
+install:
+  mode: create
+  management_interface:
+    interfaces:
+      - name: {{INTERFACE_NAME}}
+    default_route: true
+    method: static
+    bond_options:
+      miimon: 100
+    ip: {{PUBLIC_IP}}
+    subnet_mask: {{PUBLIC_SUBNET}}
+    gateway: {{PUBLIC_GW}}
+  device: {{BLOCK-STORAGE-DEVICE}}
+  iso_url: https://releases.rancher.com/harvester/master/harvester-master-amd64.iso
+  tty: ttyS1,115200n8   # For machines without a VGA console
+
+  vip: {{VIRTUAL-IP-FOR-CLUSTER-MANAGEMENT}}
+  vip_mode: static                   # Or static
+  vip_hw_addr:   # Leave empty when vip_mode is static
