@@ -1,0 +1,11 @@
+#!ipxe
+
+ifopen net{{ INTERFACE_ID }}
+set net{{ INTERFACE_ID }}/ip {{ PUBLIC_IP }}
+set net{{ INTERFACE_ID }}/netmask {{ NETMASK }}
+set net{{ INTERFACE_ID }}/gateway {{ PUBLIC_GW }}
+set net{{ INTERFACE_ID }}/dns 8.8.8.8
+
+kernel https://github.com/latitudesh/examples/releases/download/ol9-r9u4x86_64/vmlinuz initrd=initrd.img root=live:https://github.com/latitudesh/examples/releases/download/ol9-r9u4x86_64/install.img modprobe.blacklist=rndis_host net.ifnames=0 biosdevname=0 ip={{ PUBLIC_IP }}::{{ PUBLIC_GW }}:{{ NETMASK }}::eth{{ INTERFACE_ID }}:off:8.8.8.8
+initrd https://github.com/latitudesh/examples/releases/download/ol9-r9u4x86_64/initrd.img
+boot
