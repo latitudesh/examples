@@ -6,11 +6,7 @@ set net{{ INTERFACE_ID }}/netmask {{ NETMASK }}
 set net{{ INTERFACE_ID }}/gateway {{ PUBLIC_GW }}
 set net{{ INTERFACE_ID }}/dns 8.8.8.8
 
-set nfs_server MY_NFS_ADDRESS # MY_NFS_ADDRESS should be replaced with a public ip from an nfs server that provides the available installation files.
-set nfs_path MY_NFS_PATH # MY_NFS_PATH should be replaced with the directory path containing the installation files.
+kernel https://github.com/latitudesh/examples/releases/download/us_22.04_amd64/vmlinuz initrd=initrd  url=http://releases.ubuntu.com/jammy/ubuntu-22.04.4-live-server-amd64.iso net.ifnames=0 biosdevname=0 ip={{ PUBLIC_IP }}::{{ PUBLIC_GW }}:{{ NETMASK }}::eth{{ INTERFACE_ID }}:off:8.8.8.8:1.1.1.1
+initrd https://github.com/latitudesh/examples/releases/download/us_22.04_amd64/initrd
 
-kernel nfs://${nfs_server}:${nfs_path}/casper/vmlinuz || read void
-initrd nfs://${nfs_server}:${nfs_path}/casper/initrd || read void
-imgargs vmlinuz initrd=initrd boot=casper maybe-ubiquity netboot=nfs nfsroot=${nfs_server}:${nfs_path} ip={{ PUBLIC_IP }}::{{ PUBLIC_GW }}:{{ NETMASK }}::enp1s0f0:off || read void
-boot || read void
-
+boot
