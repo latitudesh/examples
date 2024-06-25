@@ -6,6 +6,6 @@ set net{{ INTERFACE_ID }}/netmask {{ NETMASK }}
 set net{{ INTERFACE_ID }}/gateway {{ PUBLIC_GW }}
 set net{{ INTERFACE_ID }}/dns 8.8.8.8
 
-kernel http://repo.almalinux.org/almalinux/9.4/BaseOS/x86_64/os/images/pxeboot/vmlinuz inst.repo=http://repo.almalinux.org/almalinux/9.4/BaseOS/x86_64/os/ initrd=initrd.img modprobe.blacklist=rndis_host net.ifnames=0 biosdevname=0 ip={{ PUBLIC_IP }}::{{ PUBLIC_GW }}:{{ NETMASK }}::eth{{ INTERFACE_ID }}:off:8.8.8.8
-initrd http://repo.almalinux.org/almalinux/9.4/BaseOS/x86_64/os/images/pxeboot/initrd.img
+kernel http://repo.almalinux.org/almalinux/9/BaseOS/x86_64/os/images/pxeboot/vmlinuz inst.repo=http://repo.almalinux.org/almalinux/9/BaseOS/x86_64/os/ initrd=initrd.img modprobe.blacklist=rndis_host net.ifnames=0 biosdevname=0 ip={{ PUBLIC_IP }}::{{ PUBLIC_GW }}:{{ NETMASK }}::eth{{ INTERFACE_ID }}:off:8.8.8.8
+initrd http://repo.almalinux.org/almalinux/9/BaseOS/x86_64/os/images/pxeboot/initrd.img
 boot
