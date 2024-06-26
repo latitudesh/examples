@@ -179,5 +179,5 @@ boot
 
 Note that the ipxe.script have a reference to kickstart.ks file at parameter *inst.ks=*, this parameter should be updated with the kickstart file url.
 
-
+At the end of installation you will be able access the machine via ssh, using the user *(alma)* and passaword configured in the kickstart file.
 
