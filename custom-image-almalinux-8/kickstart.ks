@@ -28,7 +28,7 @@ selinux --enforcing
 skipx
 
 # Initial disk setup
-# Use the first paravirtualized disk
+# Use the first disk
 ignoredisk --only-use=nvme0n1
 # Place the bootloader on the Master Boot Record
 bootloader --location=mbr --driveorder="nvme0n1" --timeout=1
@@ -43,7 +43,7 @@ part / --size=1 --grow --asprimary --fstype=ext4
 rootpw --plaintext password
 
 # Add a user named packer
-user --groups=wheel --name=alma --password="#yourpasswordhere#" --plaintext --gecos="alma"
+user --groups=wheel --name=alma --password='#yourpasswordhere#' --plaintext --gecos='alma'
 
 %post --erroronfail
 # workaround anaconda requirements and clear root password
