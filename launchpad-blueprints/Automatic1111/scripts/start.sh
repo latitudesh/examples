@@ -1,13 +1,24 @@
-#!/bin/sh
+#!/bin/bash
 
+# Setup SSH
+# Install OpenSSH Server if not already installed
+apt update && apt install -y openssh-server
+mkdir -p /var/run/sshd
+
+# Configure SSH
+sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+echo "PasswordAuthentication no" >> /etc/ssh/sshd_config
+
+# Default SSH user to root if not provided
 SSH_USER=${SSH_USER:-root}
- 
-if ! id "$SSH_USER" &>/dev/null && [ "$SSH_USER" != "root" ]; then
+
+# Check if SSH_USER exists, if not create it
+if ! id "$SSH_USER" &>/dev/null; then
     useradd -m $SSH_USER
 fi
 
+# If a PUBLIC_KEY environment variable is provided, add the key to the SSH_USER
 if [ -n "$PUBLIC_KEY" ]; then
-    # Determine correct home directory
     HOME_DIR=$(getent passwd "$SSH_USER" | cut -d: -f6)
     mkdir -p $HOME_DIR/.ssh
     echo $PUBLIC_KEY > $HOME_DIR/.ssh/authorized_keys
@@ -15,9 +26,9 @@ if [ -n "$PUBLIC_KEY" ]; then
     chmod 700 $HOME_DIR/.ssh
     chmod 600 $HOME_DIR/.ssh/authorized_keys
 fi
- 
+
 # Start the SSH service
-exec /usr/sbin/sshd -D
+service ssh start
 
 
 mkdir -p /workspace/a1111
