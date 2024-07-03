@@ -14,6 +14,4 @@ COPY ./cache ./cache
 
 COPY --chmod=755 scripts/* ./
 
-RUN ./setup-ssh.sh
-
 CMD ["./start.sh"]
