@@ -3,7 +3,7 @@
 # Setup SSH
 # Install OpenSSH Server if not already installed
 apt update && apt install -y openssh-server
-mkdir /var/run/sshd
+mkdir -p /var/run/sshd
 
 # Configure SSH
 sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
@@ -28,7 +28,7 @@ if [ -n "$PUBLIC_KEY" ]; then
 fi
 
 # Start the SSH service
-exec /usr/sbin/sshd -D
+service ssh start
 
 # Start the Jupyter Lab server
 
