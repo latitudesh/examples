@@ -10,6 +10,8 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     . ./venv/bin/activate && \
     pip install torch diffusers transformers accelerate sentencepiece gradio protobuf jupyterlab
 
+COPY ./cache ./cache
+
 COPY --chmod=755 scripts/* ./
 
 RUN ./setup-ssh.sh
