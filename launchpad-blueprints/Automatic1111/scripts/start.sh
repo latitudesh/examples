@@ -7,12 +7,6 @@ if ! id "$SSH_USER" &>/dev/null; then
     useradd -m $SSH_USER
 fi
 
-# Enable or disable password authentication based on SSH_PASSWORD_AUTH environment variable
-if [ -n "$SSH_PASSWORD" ]; then
-    sed -i 's/^PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
-    echo "$SSH_USER:$SSH_PASSWORD" | chpasswd
-fi
-
 # If a PUBLIC_KEY environment variable is provided, add the key to the SSH_USER
 if [ -n "$PUBLIC_KEY" ]; then
     # Determine correct home directory
@@ -23,6 +17,7 @@ if [ -n "$PUBLIC_KEY" ]; then
     chmod 700 $HOME_DIR/.ssh
     chmod 600 $HOME_DIR/.ssh/authorized_keys
 fi
+
 
 mkdir -p /workspace/a1111
 mv /temp/a1111/* /workspace/a1111
