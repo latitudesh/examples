@@ -72,6 +72,4 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 COPY --chmod=755 scripts/* ./
 
-RUN ./setup-ssh.sh
-
 CMD ["./start.sh"]
