@@ -1,6 +1,10 @@
 ARG BASE_IMAGE
 FROM $BASE_IMAGE
 
+# Install OpenSSH Server
+RUN apt-get update && apt-get install -y openssh-server
+RUN mkdir /var/run/sshd
+
 WORKDIR /workspace/audiocraft
 
 RUN apt update -y && apt install git wget ffmpeg -y
@@ -20,7 +24,5 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     pip install -r requirements.txt
 
 COPY --chmod=755 scripts/* .
-
-RUN ./setup-ssh.sh
 
 CMD ["./start.sh"]
