@@ -10,7 +10,7 @@ services:
         BASE_IMAGE: python:3.10-slim
         FORGE_SHA: 0af28699c45c1c5bf9cb6818caac6ce881123131
         WORKDIR: /workspace
-    image: laittudesh/sd-forge:latest
+    image: latitudesh/sd-forge:latest
     deploy:
       resources:
         reservations:
