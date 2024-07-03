@@ -99,9 +99,6 @@ COPY --from=other-models /models/loras ./models/loras
 ARG WORKDIR
 WORKDIR ${WORKDIR}
 
-RUN chmod +x ./setup-ssh.sh
 RUN chmod +x ./start.sh
-
-RUN ./setup-ssh.sh
 
 CMD ["./start.sh"]
