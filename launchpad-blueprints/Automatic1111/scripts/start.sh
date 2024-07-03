@@ -1,13 +1,11 @@
 #!/bin/sh
 
 SSH_USER=${SSH_USER:-root}
-
-# Check if SSH_USER exists, if not create it
-if ! id "$SSH_USER" &>/dev/null; then
+ 
+if ! id "$SSH_USER" &>/dev/null && [ "$SSH_USER" != "root" ]; then
     useradd -m $SSH_USER
 fi
 
-# If a PUBLIC_KEY environment variable is provided, add the key to the SSH_USER
 if [ -n "$PUBLIC_KEY" ]; then
     # Determine correct home directory
     HOME_DIR=$(getent passwd "$SSH_USER" | cut -d: -f6)
@@ -17,6 +15,9 @@ if [ -n "$PUBLIC_KEY" ]; then
     chmod 700 $HOME_DIR/.ssh
     chmod 600 $HOME_DIR/.ssh/authorized_keys
 fi
+ 
+# Start the SSH service
+exec /usr/sbin/sshd -D
 
 
 mkdir -p /workspace/a1111
