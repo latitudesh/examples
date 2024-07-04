@@ -39,4 +39,4 @@ exec /usr/sbin/sshd -D &
 
 . venv/bin/activate && nohup jupyter-lab --allow-root --ip  0.0.0.0 --NotebookApp.token='' --notebook-dir /workspace/a1111 --NotebookApp.allow_origin=* --NotebookApp.allow_remote_access=1 &
 
-. venv/bin/activate && python launch.py --listen --opt-sdp-attention
+. venv/bin/activate && python launch.py --listen --opt-sdp-attention --enable-insecure-extension-access
