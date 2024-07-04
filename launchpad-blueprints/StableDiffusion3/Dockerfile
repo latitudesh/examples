@@ -2,6 +2,10 @@ ARG BASE_IMAGE
 
 FROM $BASE_IMAGE
 
+# Install OpenSSH Server
+RUN apt-get update && apt-get install -y openssh-server
+RUN mkdir /var/run/sshd
+
 WORKDIR /workspace/stable-diffusion-3-medium
 
 # Install dependencies
