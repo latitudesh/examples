@@ -29,6 +29,10 @@ RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M "https://github.com/fa
 # -------------------------------------------------------------------Final---------------------------------------------------------------------
 FROM $BASE_IMAGE as final
 
+# Install OpenSSH Server
+RUN apt-get update && apt-get install -y openssh-server
+RUN mkdir /var/run/sshd
+
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \
     NVIDIA_VISIBLE_DEVICES=all \
