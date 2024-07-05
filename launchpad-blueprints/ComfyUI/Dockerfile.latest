@@ -1,0 +1,108 @@
+ARG BASE_IMAGE
+
+FROM debian:12-slim as base-model-downloader
+RUN apt update && apt install aria2 -y
+
+# -------------------------------------------------------------------SD1.5 CONTROLNETS----------------------------------------------------------------
+FROM base-model-downloader as sd15-controlnet-models
+ARG SAVE_DIR="/models/controlnet/sd1.5"
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_openpose.pth" -d ${SAVE_DIR} -o "control_v11p_sd15_openpose.pth"
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11f1p_sd15_depth.pth" -d ${SAVE_DIR} -o "control_v11f1p_sd15_depth.pth"
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M "https://huggingface.co/lllyasviel/ControlNet-v1-1/resolve/main/control_v11p_sd15_lineart.pth" -d ${SAVE_DIR} -o "control_v11p_sd15_lineart.pth"
+
+# -------------------------------------------------------------------ANIMATEDIFF----------------------------------------------------------------------
+FROM base-model-downloader as animatediff-models
+ARG SAVE_DIR="/models/animatediff_models"
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M "https://huggingface.co/wangfuyun/AnimateLCM/resolve/main/AnimateLCM_sd15_t2v.ckpt" -d ${SAVE_DIR} -o "AnimateLCM_sd15_t2v.ckpt"
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M "https://huggingface.co/guoyww/animatediff/resolve/main/v3_sd15_mm.ckpt" -d ${SAVE_DIR} -o "v3_sd15_mm.ckpt"
+
+# -------------------------------------------------------------------SD1.5 Models---------------------------------------------------------------------
+FROM base-model-downloader as sd15-models
+ARG SAVE_DIR="/models/checkpoints/sd1.5"
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M "https://huggingface.co/jzli/DreamShaper-8/resolve/main/dreamshaper_8.safetensors" -d ${SAVE_DIR} -o "dreamshaper_8.safetensors"
+
+# -------------------------------------------------------------------SDXL Models---------------------------------------------------------------------
+FROM base-model-downloader as sdxl-models
+ARG SAVE_DIR="/models/checkpoints/sdxl"
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M "https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors" -d ${SAVE_DIR} -o "sd_xl_base_1.0.safetensors"
+
+# ---------------------------------------------------------IP Adapter models---------------------------------------------------------------------
+FROM base-model-downloader as ipadapter-models
+
+ARG SAVE_DIR="/models/clip_vision"
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M "https://huggingface.co/h94/IP-Adapter/resolve/main/models/image_encoder/model.safetensors" -d ${SAVE_DIR} -o "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/image_encoder/model.safetensors" -d ${SAVE_DIR} -o "CLIP-ViT-bigG-14-laion2B-39B-b160k.safetensors"
+
+ARG SAVE_DIR="/models/ipadapter"
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter-plus_sd15.safetensors" -d ${SAVE_DIR} -o "ip-adapter-plus_sd15.safetensors"
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter-plus_sdxl_vit-h.safetensors" -d ${SAVE_DIR} -o "ip-adapter-plus_sdxl_vit-h.safetensors"
+
+
+# -------------------------------------------------------------------Other Models---------------------------------------------------------------------
+FROM base-model-downloader as other-models
+# vae
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M "https://huggingface.co/stabilityai/sd-vae-ft-mse-original/resolve/main/vae-ft-mse-840000-ema-pruned.ckpt" -d "/models/vae" -o "vae-ft-mse-840000-ema-pruned.ckpt"
+# lora
+RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M "https://huggingface.co/latent-consistency/lcm-lora-sdv1-5/resolve/main/pytorch_lora_weights.safetensors" -d "/models/loras" -o "lcm_sd15.safetensors"
+
+
+# -------------------------------------------------------------------Final---------------------------------------------------------------------
+FROM ${BASE_IMAGE} as final
+
+# Install OpenSSH Server
+RUN apt-get update && apt-get install -y openssh-server
+RUN mkdir /var/run/sshd
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONUNBUFFERED=1 \
+    NVIDIA_VISIBLE_DEVICES=all \
+    NVIDIA_DRIVER_CAPABILITIES=all
+
+WORKDIR /temp
+
+RUN apt update -y && apt install git wget ffmpeg -y
+
+ARG COMFYUI_SHA
+RUN git clone https://github.com/comfyanonymous/ComfyUI
+
+WORKDIR /temp/ComfyUI
+
+RUN git checkout ${COMFYUI_SHA}
+
+ARG PYTORCH_VERSION
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install torch==${PYTORCH_VERSION} torchsde torchvision einops transformers>=4.25.1 safetensors>=0.3.0 aiohttp pyyaml Pillow scipy tqdm psutil kornia>=0.7.1 jupyterlab
+
+RUN git -C ./custom_nodes clone --depth 1 https://github.com/ltdrdata/ComfyUI-Manager.git && \
+    git -C ./custom_nodes clone --depth 1 https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite.git && \
+    git -C ./custom_nodes clone --depth 1 https://github.com/Kosinkadink/ComfyUI-Advanced-ControlNet.git && \
+    git -C ./custom_nodes clone --depth 1 https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved && \
+    git -C ./custom_nodes clone --depth 1 https://github.com/Fannovel16/comfyui_controlnet_aux.git && \
+    git -C ./custom_nodes clone --depth 1 https://github.com/Fannovel16/ComfyUI-Frame-Interpolation.git && \
+    git -C ./custom_nodes clone --depth 1 https://github.com/jags111/efficiency-nodes-comfyui.git && \
+    git -C ./custom_nodes clone --depth 1 https://github.com/kijai/ComfyUI-KJNodes.git && \
+    git -C ./custom_nodes clone --depth 1 https://github.com/cubiq/ComfyUI_IPAdapter_plus.git && \
+    git -C ./custom_nodes clone --depth 1 https://github.com/cubiq/ComfyUI_essentials.git && \
+    git -C ./custom_nodes clone --depth 1 https://github.com/FizzleDorf/ComfyUI_FizzNodes.git
+
+COPY scripts/* .
+
+RUN chmod +x ./install-nodes-dependencies.sh
+RUN --mount=type=cache,target=/root/.cache/pip \
+    ./install-nodes-dependencies.sh
+
+COPY --from=sd15-models /models/* ./models/checkpoints
+COPY --from=sdxl-models /models/* ./models/checkpoints
+COPY --from=sd15-controlnet-models /models/* ./models/controlnet
+COPY --from=animatediff-models /models/* ./models/animatediff_models
+COPY --from=ipadapter-models /models/ipadapter ./models/ipadapter
+COPY --from=ipadapter-models /models/clip_vision ./models/clip_vision
+COPY --from=other-models /models/vae ./models/vae
+COPY --from=other-models /models/loras ./models/loras
+
+ARG WORKDIR
+WORKDIR ${WORKDIR}
+
+RUN chmod +x ./start.sh
+
+CMD ["./start.sh"]

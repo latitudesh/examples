@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  latest:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BASE_IMAGE: python:3.10-slim
+        FORGE_SHA: 0af28699c45c1c5bf9cb6818caac6ce881123131
+        WORKDIR: /workspace
+    image: latitudesh/sd-forge:latest
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [ gpu ]
+    ports:
+      - 22:22 # ssh
+      - 7860:7860 # stable diffusion forge
+      - 8888:8888 # jupyter server
