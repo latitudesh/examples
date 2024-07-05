@@ -1,14 +1,14 @@
-This repository indicates the Harvester installation steps in an automated way, replacing all place holders correctly this script will deliver the Harvester ready for operation.
+This repository indicates the Harvester installation steps in an automated way, replacing all placeholders correctly this script will deliver the Harvester ready for operation.
 
 # Intro
 
-Harvester is a modern hyperconverged infrastructure (HCI) solution built for bare metal servers using enterprise-grade open-source technologies including Linux, KVM, Kubernetes, KubeVirt, and Longhorn. Designed for users looking for a flexible and affordable solution to run cloud-native and virtual machine (VM) workloads in your datacenter and at the edge, Harvester provides a single pane of glass for virtualization and cloud-native workload management.
+Harvester is a modern hyper-converged infrastructure (HCI) solution built for bare metal servers using enterprise-grade open-source technologies including Linux, KVM, Kubernetes, KubeVirt, and Longhorn. Designed for users looking for a flexible and affordable solution to run cloud-native and virtual machine (VM) workloads in your data center and at the edge, Harvester provides a single glass for virtualization and cloud-native workload management.
 
-Harvester operates on Kubevirt, Longhorn, and RKE2. RKE2 provides an orchestration infrastructure layer, while Kubevirt offers pods with virtualization capabilities. This allows for advanced features needed by virtual machines, such as running their own kernel. Longhorn acts as a block storage manager, delivering hard disks for virtual machines.
+Harvester operates on Kubevirt, Longhorn, and RKE2. RKE2 provides an orchestration infrastructure layer, while Kubevirt offers pods with virtualization capabilities. This allows for advanced features virtual machines need, such as running their kernel. Longhorn is a block storage manager, that delivers hard disks for virtual machines.
 
 # Installation
 
-> All files used to deployment must be public available at the moment of deployment.
+> All files used for deployment must be publicly available at the moment of deployment.
 
 ## iPXE Script
 
@@ -40,7 +40,7 @@ This parameter points to the configuration file that determines how the installa
 
 > console=ttyS1,115200n8
 
-This parameter should be used to make harvester installer use serial console, this option allows [out-of-band](https://www.latitude.sh/docs/servers/out-of-band) to be used to monitor the installation.
+This parameter should be used to make the harvester installer use the serial console, this option allows [out-of-band](https://www.latitude.sh/docs/servers/out-of-band) to be used to monitor the installation.
 
 ## Harvester Config Files
 
@@ -52,7 +52,7 @@ A token must be defined, and this will be used later to join new nodes to the cl
 
 > token: {{CLUSTER-TOKEN}} 
 
-Another parameter used to join new node to cluster is VIP. The IP address used as VIP must be dedicated, otherwise the installation will fail, so it is necessary request an [additional IP](https://www.latitude.sh/docs/networking/ips). 
+Another parameter used to join a new node to cluster is VIP. The IP address used as VIP must be dedicated, otherwise, the installation will fail, so it is necessary to request an [additional IP](https://www.latitude.sh/docs/networking/ips). 
 
 > vip: {{VIRTUAL-IP-FOR-CLUSTER-MANAGEMENT}}
 
@@ -98,7 +98,7 @@ install:
 
 The HARVESTER-ADD-NODE-TO-CLUSTER.yaml configuration file pertains to any other node added after the first one. Since the cluster is already up, the new node will join the cluster.
 
-In this case no additional IP is required, and a new parameter is introduced:
+In this case, no additional IP is required, and a new parameter is introduced:
 
 > server_url: https://{{VIRTUAL-IP-FOR-CLUSTER-MANAGEMENT}}:443
 
@@ -141,12 +141,12 @@ install:
 
 Special attention must be applied to disk device: {{BLOCK-STORAGE-DEVICE}}  and network interface name: {{INTERFACE_NAME}}
 
-The names of block storage device and network interface may make the installation failure for different reasons: 
+The names of block storage device and network interface may make the installation fail for different reasons: 
 
 - Since it is a network installation, the harvester installer needs internet access to retrieve installation files. If the network interface name is wrong, then there will be no internet access and the installation will fail.
-- If name of the block storage device is wrong the harvester installer will fail.
+- If the name of the block storage device is wrong the harvester installer will fail.
 
-In both cases the installer will enter in emergency shell, if this occurs you can look into network interfaces names and block storage devices names and adjust the config files.
+In both cases the installer will enter an emergency shell, if this occurs you can look into network interface names block storage device names, and adjust the config files.
 
 # Reference
 
