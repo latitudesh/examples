@@ -1,0 +1,13 @@
+#cloud-config
+packages:
+  - snapd
+
+runcmd:
+  - snap install yq
+  - |
+    vid=10
+    subnet_address="10.0.0.2/24"
+    iface=$(cat /etc/netplan/50-cloud-init.yaml | yq e '.network.ethernets[] | select(has("gateway4") | not ) | path | .[-1]' -)
+    cat /etc/netplan/50-cloud-init.yaml | yq e ".network.vlans.vlan10 = {\"id\": \"$vid\", \"link\": \"$iface\", \"addresses\": [\"$subnet_address\"]}"  >> /etc/netplan/network-config.yaml
+    rm /etc/netplan/50-cloud-init.yaml
+    netplan apply
