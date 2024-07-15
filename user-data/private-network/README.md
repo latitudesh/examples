@@ -7,4 +7,4 @@ This is helpful for automating the process of adding servers to a private networ
 ### Requirements:
 * Create a VLAN by going to Networking -> Private networks. Write down the VID value.
 * Replace the `<VID>` variable in the script with the VID of the VLAN to which you want the server to be added.
-* Replace the `subnet_address` variable with a private IP for internal communication.
+* Replace `<IP_ADDRESS>` variable with a private IP for internal communication.
