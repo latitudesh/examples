@@ -1,0 +1,13 @@
+#cloud-config
+packages:
+  - snapd
+
+runcmd:
+  - snap install yq
+  - |
+    vid=<VID> # replace with the VID of the vlan you created
+    subnet_address="<IP_ADDRESS>" # replace with a private IP address followed by the subnet, e.g. 10.0.0.2/24
+    iface=$(cat /etc/netplan/50-cloud-init.yaml | yq e '.network.ethernets[] | select(has("gateway4") | not ) | path | .[-1]' -)
+    cat /etc/netplan/50-cloud-init.yaml | yq e ".network.vlans.vlan<VID> = {\"id\": \"$vid\", \"link\": \"$iface\", \"addresses\": [\"$subnet_address\"]}"  >> /etc/netplan/network-config.yaml
+    rm /etc/netplan/50-cloud-init.yaml
+    netplan apply
