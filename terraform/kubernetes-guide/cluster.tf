@@ -1,7 +1,7 @@
 # Create a new rancher2 imported Cluster
 resource "rancher2_cluster" "imported_cluster" {
   name        = "latitudesh-kubernetes-guide"
-  description = "imported Cluster using terraform"
+  description = "Terraform-provisioned cluster."
 }
 
 resource "latitudesh_server" "server" {
