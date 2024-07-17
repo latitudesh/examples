@@ -14,8 +14,8 @@ mainterraform {
 provider "rancher2" {
   # Configuration options
   api_url    = var.rancher_api_url
-  access_key = var.rancher_access_key
-  secret_key = var.rancher_secret_key
+  access_key = var.RANCHER_ACCESS_KEY
+  secret_key = var.RANCHER_SECRET_KEY
   insecure   = true
 }
 
