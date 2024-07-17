@@ -23,7 +23,7 @@ variable "region" {
 
 // SSH Keys
 variable "ssh_key_id" {
-  default = ""
+  default = "" # The key can't contain a passphrase
 }
 
 variable "private_key_path" {
