@@ -6,7 +6,7 @@ terraform {
     }
     latitudesh = {
       source  = "latitudesh/latitudesh"
-      version = "1.1.1"
+      version = ">= 1.1.2"
     }
   }
 }
