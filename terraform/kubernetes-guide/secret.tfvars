@@ -1,3 +1,3 @@
-rancher_access_key = ""
-rancher_secret_key = ""
+RANCHER_ACCESS_KEY = ""
+RANCHER_SECRET_KEY = ""
 LATITUDESH_AUTH_TOKEN = "" 
