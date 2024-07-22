@@ -36,14 +36,19 @@ variable "rancher_api_url" {
   default = ""
 }
 
-variable "rancher_access_key" {
+variable "RANCHER_ACCESS_KEY" {
   description = "rancher api access key"
   type        = string
   sensitive   = true
 }
 
-variable "rancher_secret_key" {
+variable "RANCHER_SECRET_KEY" {
   description = "rancher api secret key"
   type        = string
   sensitive   = true
+}
+
+variable "server_count" {
+  description = "The number of server instances to create."
+  default     = 2
 }
