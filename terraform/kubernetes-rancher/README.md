@@ -34,10 +34,16 @@ terraform init
 
 3. Update the `variables.tf` file with your specific details:
 
-- `latitude_api_key`: Your Latitude API key
-- `rancher_api_url`: The URL of your Rancher server API
-- `rancher_token_key`: Your Rancher API token
-- `ssh_key_id`: The ID of the SSH key you want to use for the nodes
+- `LATITUDESH_AUTH_TOKEN`: Don't hardcode this. You will be asked for it when planning and applying your plan. 
+- `project_id`: The ID of the project you want to deploy to. Find this from the [home page](https://www.latitude.sh/dashboard) in the console.
+- `plan`: The plan slug. For example, for the m4.metal.medium, use `m4-metal-medium`
+- `region`: The slug of the location you want to deploy to. E.g., for Dallas use `DAL`. Find all with the api.latitude.sh/locations endpoint.
+- `ssh_key_id`: The ID of the SSH key you want to use for the nodes. Find this in the console under Project settings > SSH keys
+- `private_key_path`: This script will access your servers during setup. Add the local path in your computer where the private key of the SSH Key inserted above.
+- `rancher_api_url`:  
+- `RANCHER_ACCESS_KEY`: 
+- `RANCHER_SECRET_KEY`:
+- `server_count`: Optional. Number of nodes to provision and add to the cluster.
 
 4. (Optional) Modify other variables in `variables.tf` as needed:
 
