@@ -70,4 +70,8 @@ To destroy the resources created by this Terraform plan:
 terraform destroy
 ```
 
+## Support
+
+If you encounter any issues or have questions, please open an issue in the [examples repository](https://github.com/latitudesh/examples/issues).
+
 
