@@ -1,9 +1,73 @@
-# Latitude.sh Kubernetes Guide
 
-Create a new cluster on a existing rancher with Terraform on Latitude.sh.
+# Kubernetes Cluster on Latitude with Terraform
 
-* Fill in the fields in the variables.tf and secret.tf file
+This guide will help you set up a Kubernetes cluster on Latitude using Terraform and Rancher.
+
+## Prerequisites
+
+- [Terraform](https://www.terraform.io/downloads.html) installed
+- [NPM](https://www.npmjs.com/get-npm) installed
+- An existing Rancher server
+- A Latitude account with an API key
+
+## Important Notes
+
+- Ensure you have an existing Rancher server where the cluster will be created. This Terraform plan does not create a Rancher server.
+- The `rancher_api_url` should be in the format `https://<your-rancher-server>/v3`.
+- Make sure your Rancher server is accessible from the internet, as the Latitude servers will need to communicate with it.
+- The default configuration creates a cluster with 3 worker nodes. Adjust the `node_count` variable if you need a different number of nodes.
+
+## Getting Started
+
+1. Download the example files using degit:
 
 ```bash
-terraform apply -var-file="secret.tfvars"
+npx degit latitudesh/examples/terraform/kubernetes-guide my-kubernetes-cluster
+cd my-kubernetes-cluster
 ```
+
+2. Initialize Terraform:
+
+```bash
+terraform init
+```
+
+3. Update the `variables.tf` file with your specific details:
+
+- `latitude_api_key`: Your Latitude API key
+- `rancher_api_url`: The URL of your Rancher server API
+- `rancher_token_key`: Your Rancher API token
+- `ssh_key_id`: The ID of the SSH key you want to use for the nodes
+
+4. (Optional) Modify other variables in `variables.tf` as needed:
+
+- `project_id`: Your Latitude project ID
+- `region`: The region where you want to deploy the cluster
+- `plan`: The server plan for the nodes
+- `node_count`: The number of worker nodes (default is 3)
+
+5. Review and adjust the `main.tf` file if necessary.
+
+6. Plan your Terraform execution:
+
+```bash
+terraform plan
+```
+
+7. If the plan looks good, apply the changes:
+
+```bash
+terraform apply
+```
+
+8. Confirm by typing `yes` when prompted.
+
+## Cleaning Up
+
+To destroy the resources created by this Terraform plan:
+
+```bash
+terraform destroy
+```
+
+
