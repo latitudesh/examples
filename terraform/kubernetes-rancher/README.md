@@ -22,7 +22,7 @@ This guide will help you set up a Kubernetes cluster on Latitude using Terraform
 1. Download the example files using degit:
 
 ```bash
-npx degit latitudesh/examples/terraform/kubernetes-guide my-kubernetes-cluster
+npx degit latitudesh/examples/terraform/kubernetes-rancher my-kubernetes-cluster
 cd my-kubernetes-cluster
 ```
 
