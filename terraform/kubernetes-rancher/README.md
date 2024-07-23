@@ -42,7 +42,7 @@ terraform init
 - `private_key_path`: This script will access your servers during setup. Add the local path in your computer where the private key of the SSH Key inserted above.
 - `rancher_api_url`: The `rancher_api_url` should be in the format `https://<your-rancher-server>/v3`.
 - `RANCHER_ACCESS_KEY`: The access key is available in your control plane. Find more details on the [Rancher docs](https://ranchermanager.docs.rancher.com/reference-guides/user-settings/api-keys)
-- `RANCHER_SECRET_KEY`:
+- `RANCHER_SECRET_KEY`: The token's password. Find more details on [Rancher Doc](https://ranchermanager.docs.rancher.com/reference-guides/user-settings/api-keys) in the API Keys.
 - `server_count`: Optional. Number of nodes to provision and add to the cluster.
 
 4. (Optional) Modify other variables in `variables.tf` as needed:
