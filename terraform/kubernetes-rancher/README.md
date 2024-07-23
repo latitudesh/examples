@@ -40,7 +40,7 @@ terraform init
 - `region`: The slug of the location you want to deploy to. E.g., for Dallas use `DAL`. Find all with the api.latitude.sh/locations endpoint.
 - `ssh_key_id`: The ID of the SSH key you want to use for the nodes. Find this in the console under Project settings > SSH keys
 - `private_key_path`: This script will access your servers during setup. Add the local path in your computer where the private key of the SSH Key inserted above.
-- `rancher_api_url`:  
+- `rancher_api_url`: The `rancher_api_url` should be in the format `https://<your-rancher-server>/v3`.
 - `RANCHER_ACCESS_KEY`: 
 - `RANCHER_SECRET_KEY`:
 - `server_count`: Optional. Number of nodes to provision and add to the cluster.
