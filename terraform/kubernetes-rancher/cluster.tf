@@ -18,7 +18,7 @@ resource "latitudesh_server" "control-plane" {
       type        = "ssh"
       user        = "ubuntu"
       host        = self.primary_ipv4
-      private_key = file(var.private_key_path)
+      private_key = file(pathexpand(var.private_key_path))
     }
 
     inline = [
@@ -39,7 +39,7 @@ resource "latitudesh_server" "control-plane" {
   }
 
   provisioner "local-exec" {
-    command = "scp -OT -o StrictHostKeyChecking=no ubuntu@${latitudesh_server.control-plane.primary_ipv4}:\"/tmp/rke2.yaml /tmp/node-token\" ./"
+    command = "scp -OT -o StrictHostKeyChecking=no -i ${var.private_key_path} ubuntu@${latitudesh_server.control-plane.primary_ipv4}:\"/tmp/rke2.yaml /tmp/node-token\" ./"
   }
 
 }
@@ -59,7 +59,7 @@ resource "latitudesh_server" "control-plane-secundary" {
     type        = "ssh"
     user        = "ubuntu"
     host        = self.primary_ipv4
-    private_key = file(var.private_key_path)
+    private_key = file(pathexpand(var.private_key_path))
   }
 
   provisioner "file" {
@@ -78,7 +78,7 @@ resource "latitudesh_server" "control-plane-secundary" {
       type        = "ssh"
       user        = "ubuntu"
       host        = self.primary_ipv4
-      private_key = file(var.private_key_path)
+      private_key = file(pathexpand(var.private_key_path))
     }
 
     inline = [
@@ -108,7 +108,7 @@ resource "null_resource" "rancher_connection" {
     type        = "ssh"
     user        = "ubuntu"
     host        = latitudesh_server.control-plane.primary_ipv4
-    private_key = file(var.private_key_path)
+    private_key = file(pathexpand(var.private_key_path))
   }
 
   provisioner "remote-exec" {
