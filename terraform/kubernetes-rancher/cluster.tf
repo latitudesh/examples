@@ -39,7 +39,7 @@ resource "latitudesh_server" "control-plane" {
   }
 
   provisioner "local-exec" {
-    command = "scp -OT -o StrictHostKeyChecking=no -i ${var.private_key_path} ubuntu@${latitudesh_server.control-plane.primary_ipv4}:\"/tmp/rke2.yaml /tmp/node-token\" ./"
+    command = "scp -OT -o StrictHostKeyChecking=no -i ${pathexpand(var.private_key_path)} ubuntu@${latitudesh_server.control-plane.primary_ipv4}:\"/tmp/rke2.yaml /tmp/node-token\" ./"
   }
 
 }
