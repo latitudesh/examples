@@ -1,7 +1,7 @@
 resource "latitudesh_server" "nomad_servers" {
   count            = var.nomad_server_count
   hostname         = "nomad-server-${count.index + 1}"
-  operating_system = "ubuntu_22_04_x64_lts"
+  operating_system = "ubuntu_24_04_x64_lts"
   site             = var.nomad_region
   plan             = var.plan
   project          = var.project_id
@@ -37,7 +37,7 @@ resource "latitudesh_server" "nomad_servers" {
 
 resource "null_resource" "nomad_servers_post_script" {
   count      = var.nomad_server_count
-  depends_on = [latitudesh_server.nomad_servers]
+  depends_on = [latitudesh_server.nomad_servers, latitudesh_vlan_assignment.assign_servers]
 
   provisioner "file" {
 
@@ -62,7 +62,7 @@ resource "null_resource" "nomad_servers_post_script" {
     inline = [
       # Add executable permission to the script, the execute it.
       "chmod +x /tmp/nomad-server-setup.sh",
-      "sudo /tmp/nomad-server-setup.sh ${count.index + 1} ${var.nomad_server_count} ${var.nomad_region} ${var.nomad_vlan_id}"
+      "sudo /tmp/nomad-server-setup.sh ${count.index + 1} ${var.nomad_server_count} ${var.nomad_region} ${latitudesh_virtual_network.nomad_vlan.vid}"
     ]
   }
 }

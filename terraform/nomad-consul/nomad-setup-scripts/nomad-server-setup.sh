@@ -79,11 +79,12 @@ EOF
 # ---
 # Update Netplan with VLAN configuration
 # ---
+vlan_link=$(sudo netplan get network.ethernets | grep -v '^[[:blank:]]' | tail -n 1 | sed 's/.$//')
 
 echo "    vlans:" >> /etc/netplan/50-cloud-init.yaml
 echo "        vlan.$vlanID:" >> /etc/netplan/50-cloud-init.yaml
 echo "            id: $vlanID" >> /etc/netplan/50-cloud-init.yaml
-echo "            link: eno2" >> /etc/netplan/50-cloud-init.yaml
+echo "            link: $vlan_link" >> /etc/netplan/50-cloud-init.yaml
 echo "            addresses: [$nomad_server_ip/24]" >> /etc/netplan/50-cloud-init.yaml
 
 # Apply Netplan configuration
