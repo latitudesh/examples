@@ -8,20 +8,17 @@
 </div>
 
 ## Tags
-| Tag    | Description                      | Size      |
-| ------ | -------------------------------- | --------- |
-| latest | python 3.10, Fooocus 2.4.3 | ~ 14.5 GB |
+| Tag    | Description              | Size      |
+| ------ | ------------------------ | --------- |
+| latest | python 3.8, bark | ~ 19.2 GB |
 
-## Models
-- [juggernautXL_v8Rundiffusion](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_offset_example-lora_1.0.safetensors)	
-- [fooocus_expansion](https://huggingface.co/lllyasviel/misc/resolve/main/fooocus_expansion.bin)	
 
 ## Ports
 
 | Connect Port | Internal Port | Description   |
 | ------------ | ------------- | ------------- |
 | 22           | 22            | SSH Server    |
-| 7860         | 7860          | Fooocus Webui |
+| 7860         | 7860          | Bark Webui    |
 | 8888         | 8888          | Jupyter Lab   |
 
 ## Environment Variables
