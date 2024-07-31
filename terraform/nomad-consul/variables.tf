@@ -14,6 +14,11 @@ variable "plan" {
   default     = ""
 }
 
+variable "operating_system" {
+  description = "Operating system to use for the instances. You can find this in the /plans/operating_systems endpoint of the API."
+  default     = "ubuntu_24_04_x64_lts"
+}
+
 // Nomad setup
 variable "nomad_server_count" {
   description = "The number of Nomad/Consul server instances to create."

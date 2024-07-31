@@ -1,7 +1,7 @@
 resource "latitudesh_server" "nomad_clients" {
   count            = var.nomad_client_count
   hostname         = "nomad-client-${count.index + 1}"
-  operating_system = "ubuntu_24_04_x64_lts"
+  operating_system = var.operating_system
   site             = var.nomad_region
   plan             = var.plan
   project          = var.project_id
