@@ -1,6 +1,6 @@
 ### Configure Private Networks
 
-This has been tested on Ubuntu 22.04 and newer. For other operating systems, you may need to adjust the script accordingly.
+This has been tested on Ubuntu 22.04 and newer. For other operating systems, you will have to adjust the script accordingly.
 
 This example demonstrates how to add a server to a previously configured [private network](https://www.latitude.sh/docs/networking/private-networks) as soon as it boots for the first time.
 
