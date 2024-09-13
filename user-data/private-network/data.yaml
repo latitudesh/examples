@@ -1,4 +1,5 @@
 #cloud-config
+# Tested on Ubuntu 22.04 and newer. For other operating systems, adjust accordingly.
 packages:
   - snapd
 
