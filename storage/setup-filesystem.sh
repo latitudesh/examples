@@ -1,35 +1,34 @@
 #!/bin/bash
 
-# Check if all arguments are provided
-if [ $# -ne 4 ]; then
-  echo "Usage: $0 <SECRET_KEY> <USERNAME> <STORAGE_FOLDER> <VOLUME_PATH>"
-  exit 1
-fi
-
 # Configuration variables
 SECRET_KEY=$1
 CLIENT_NAME=$2
-STORAGE_FOLDER=$3
-VOLUME_PATH=$4
 FILESYSTEM_NAME="fs-shared"
-MONITOR_URL="storage-mon.latitude.co" # Monitors URL
+STORAGE_FOLDER=$3
+MONITOR_URL="storage-mon.latitude.co"
+VOLUME_PATH=$4
 
-# Function to check command success
-check_command_success() {
-  if [ $? -ne 0 ]; then
-    echo "Command '$1' failed. Exiting."
-    exit 1
-  fi
-}
+# Check if storage path is provided
+if [ -z "$STORAGE_FOLDER" ]; then
+  echo "Storage path not provided. Please provide the storage path as an argument."
+  echo "Script completed with failure."
+  exit 1
+fi
 
 # Install Ceph client
-sudo apt -y install ceph-common
-check_command_success "sudo apt -y install ceph-common"
+sudo apt -y install ceph-common > /dev/null 2>&1
+check_command_success "sudo apt -y install ceph-common" > /dev/null 2>&1
+
+# Check if storage path is provided
+if [ -z "$STORAGE_FOLDER" ]; then
+  echo "Storage path not provided. Please provide the storage path as an argument."
+  exit 1
+fi
 
 # Mount filesystem in a specific directory
 echo "Mounting filesystem in $STORAGE_FOLDER..."
-sudo mkdir -p "$STORAGE_FOLDER"
-sudo mount -t ceph "$MONITOR_URL":"$VOLUME_PATH" "$STORAGE_FOLDER" -o name="$CLIENT_NAME",secret="$SECRET_KEY",fs="$FILESYSTEM_NAME"
-check_command_success "sudo mount -t ceph"
+sudo mkdir -p $STORAGE_FOLDER
+sudo mount -t ceph $MONITOR_URL:$VOLUME_PATH $STORAGE_FOLDER -o name=$CLIENT_NAME,secret=$SECRET_KEY,fs=$FILESYSTEM_NAME > /dev/null 2>&1
+check_command_success "sudo mount -t ceph $MONITOR_URL:$VOLUME_PATH $STORAGE_FOLDER -o name=$CLIENT_NAME,secret=$SECRET_KEY,fs=$FILESYSTEM_NAME" > /dev/null 2>&1
 
-echo "Storage applied successfully."
+echo "Script completed successfully."
