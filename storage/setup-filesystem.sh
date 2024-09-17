@@ -23,13 +23,13 @@ check_command_success() {
 }
 
 # Install Ceph client
-sudo apt -y install ceph-common > /dev/null 2>&1
+sudo apt -y install ceph-common
 check_command_success "sudo apt -y install ceph-common"
 
 # Mount filesystem in a specific directory
 echo "Mounting filesystem in $STORAGE_FOLDER..."
 sudo mkdir -p "$STORAGE_FOLDER"
-sudo mount -t ceph "$MONITOR_URL":"$VOLUME_PATH" "$STORAGE_FOLDER" -o name="$CLIENT_NAME",secret="$SECRET_KEY",fs="$FILESYSTEM_NAME" > /dev/null 2>&1
+sudo mount -t ceph "$MONITOR_URL":"$VOLUME_PATH" "$STORAGE_FOLDER" -o name="$CLIENT_NAME",secret="$SECRET_KEY",fs="$FILESYSTEM_NAME"
 check_command_success "sudo mount -t ceph"
 
 echo "Storage applied successfully."
