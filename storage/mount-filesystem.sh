@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -e  # Exit immediately if a command exits with a non-zero status
 
 # Color codes
@@ -63,9 +62,9 @@ echo -e "${BLUE}Mounting filesystem in $STORAGE_FOLDER...${NC}"
 sudo mkdir -p "$STORAGE_FOLDER"
 sudo mount -t ceph "$MONITOR_URL:$VOLUME_PATH" "$STORAGE_FOLDER" -o name="$CLIENT_NAME",secret="$SECRET_KEY",fs="$FILESYSTEM_NAME",_netdev,noatime
 
-# Set more secure permissions
+# Set permissions to allow group write access
 echo -e "${BLUE}Setting permissions on $STORAGE_FOLDER...${NC}"
-sudo chmod 755 "$STORAGE_FOLDER"
+sudo chmod 775 "$STORAGE_FOLDER"
 
 # Create a shared group for users who need write access
 SHARED_GROUP="storage-users"
@@ -80,7 +79,7 @@ sudo chmod g+s "$STORAGE_FOLDER"
 # Verify mount
 check_mount
 
-echo -e "${GREEN}Script completed. Mount point $STORAGE_FOLDER is set up with secure permissions.${NC}"
+echo -e "${GREEN}Script completed. Mount point $STORAGE_FOLDER is set up with permissions for group writing.${NC}"
 echo -e "${YELLOW}Users who need write access should be added to the '$SHARED_GROUP' group.${NC}"
 echo -e "${YELLOW}To add a user to this group, run: ${NC}sudo usermod -aG $SHARED_GROUP username"
 echo -e "${YELLOW}Note: Users will need to log out and log back in for the new group membership to take effect.${NC}"
