@@ -31,7 +31,7 @@ check_mount() {
 }
 
 # Install Ceph client
-echo -e "${BLUE}Installing Ceph client...${NC}"
+echo -e "${BLUE}Installing storage client...${NC}"
 sudo apt -y install ceph-common > /dev/null 2>&1
 
 # Validate storage folder input
@@ -41,14 +41,14 @@ if [ -z "$STORAGE_FOLDER" ]; then
 fi
 
 # Create Ceph configuration file
-echo -e "${BLUE}Creating Ceph configuration file...${NC}"
+echo -e "${BLUE}Creating configuration file...${NC}"
 sudo tee /etc/ceph/ceph.conf > /dev/null << EOF
 [global]
 mon host = ${MONITOR_URL}
 EOF
 
 # Create Ceph keyring file
-echo -e "${BLUE}Creating Ceph keyring file...${NC}"
+echo -e "${BLUE}Adding credentials...${NC}"
 sudo tee /etc/ceph/ceph.client.${CLIENT_NAME}.keyring > /dev/null << EOF
 [client.${CLIENT_NAME}]
     key = ${SECRET_KEY}
