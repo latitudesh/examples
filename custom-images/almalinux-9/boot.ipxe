@@ -1,4 +1,4 @@
- #!ipxe
+#!ipxe
 
 ifopen net{{ INTERFACE_ID }}
 set net{{ INTERFACE_ID }}/ip {{ PUBLIC_IP }}
