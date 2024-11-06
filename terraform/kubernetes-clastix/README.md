@@ -8,7 +8,7 @@ This guide will help you set up a Kubernetes cluster on Latitude using Terraform
 - [Terraform](https://www.terraform.io/downloads.html) installed
 - [NPM](https://www.npmjs.com/get-npm) installed
 - A [Clastix Cloud](https://console.clastix.cloud) Tenant Control Plane with a join token command string.
-- A [Latitude.sh](https://latitude.sh) account with an API key
+- A [Latitude.sh](https://www.latitude.sh) account with an API key
 
 ## Important Notes
 
