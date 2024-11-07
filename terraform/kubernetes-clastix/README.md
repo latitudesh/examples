@@ -1,7 +1,7 @@
 
-# Kubernetes Cluster on Latitude with Terraform
+# Kubernetes Cluster on Latitude.sh with Terraform
 
-This guide will help you set up a Kubernetes cluster on Latitude using Terraform and Clastix Cloud.
+This guide will help you set up a Kubernetes cluster on Latitude.sh using Terraform and Clastix Cloud.
 
 ## Prerequisites
 
