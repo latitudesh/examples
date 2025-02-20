@@ -4,8 +4,6 @@
   inputs.disko.url = "github:nix-community/disko";
   inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
   inputs.nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
-  inputs.nixos-facter-modules.inputs.nixpkgs.follows = "nixpkgs";
-
   outputs =
     {
       nixpkgs,

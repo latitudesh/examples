@@ -56,7 +56,7 @@ resource "latitudesh_user_data" "init" {
   }))
 }
 
-resource "latitudesh_server" "nixos" {
+resource "latitudesh_server" "ubuntu-clean" {
   hostname         = "c2-small-x86-SAO2-nixos"
   plan             = "c2-small-x86"
   operating_system = "ubuntu_24_04_x64_lts"
@@ -65,12 +65,64 @@ resource "latitudesh_server" "nixos" {
   ssh_keys         = [latitudesh_ssh_key.root.id]
   billing          = "hourly"
   locked           = false
-  user_data = latitudesh_user_data.init.id
+  user_data        = latitudesh_user_data.init.id 
 }
 
+resource "latitudesh_server" "ubuntu" {
+  hostname         = "c2-small-x86-SAO2-nixos"
+  plan             = "c2-small-x86"
+  operating_system = "ubuntu_24_04_x64_lts"
+  project          = latitudesh_project.project.id
+  site             = "SAO2"
+  ssh_keys         = [latitudesh_ssh_key.root.id]
+  billing          = "hourly"
+  locked           = false
+  user_data        = latitudesh_user_data.init.id
+}
+
+resource "null_resource" "nixos" {
+  depends_on = [ latitudesh_server.ubuntu ]
+  provisioner "local-exec" {
+    command = "nix run github:nix-community/nixos-anywhere -- --flake .#default --generate-hardware-config nixos-facter facter.json ubuntu@${latitudesh_server.ubuntu.primary_ipv4}"
+  }
+}
+
+
+resource "null_resource" "nixos2" {
+  depends_on = [ latitudesh_server.ubuntu ]
+  provisioner "local-exec" {
+    command = "nix run github:nix-community/nixos-anywhere -- --flake .#default --generate-hardware-config nixos-facter facter.json ubuntu@${latitudesh_server.ubuntu-clean.primary_ipv4}"
+  }
+}
+
+
 output "ssh_connection" {
-  value = "ssh ubuntu@${latitudesh_server.nixos.primary_ipv4}"
+  value = "ssh ubuntu@${latitudesh_server.ubuntu.primary_ipv4}"
+}
+
+output "ssh_connection2" {
+  value = "ssh ubuntu@${latitudesh_server.ubuntu-clean.primary_ipv4}"
 }
 
 # enp1s0f0
 # services.openssh.settings.ClientAliveInterval = 180;
+
+
+# null_resource.nixos (local-exec): + uname -r
+# null_resource.nixos (local-exec): + printf %s\n 6.1 6.8.0-53-generic
+# null_resource.nixos (local-exec): + kexecSyscallFlags=--kexec-syscall-auto
+# null_resource.nixos (local-exec): + sh -c '/root/kexec/kexec/kexec' --load '/root/kexec/kexec/bzImage'   --kexec-syscall-auto      --initrd='/root/kexec/kexec/initrd' --no-checks   --command-line 'init=/nix/store/4g9j050k7pnbb2n43dssv6sndfarl81n-nixos-system-nixos-installer-24.11pre-git/init nouveau.modeset=0 console=tty0 console=ttyS0,115200 root=fstab loglevel=4'
+# null_resource.nixos (local-exec): machine will boot into nixos in 6s...
+# null_resource.nixos (local-exec): + echo machine will boot into nixos in 6
+
+
+  # network:
+  #   network:
+  #     version: 2
+  #     ethernets:
+  #       enp1s0f0:
+  #         dhcp4: no
+  #         addresses: [$PUBLIC_IP]
+  #         gateway4: $PUBLIC_GATEWAY
+  #         nameservers:
+  #           addresses: [8.8.8.8, 8.8.4.4]

@@ -446,13 +446,13 @@
           "irq": 0,
           "prog_if": 0
         },
-        "driver": "skl_uncore",
-        "driver_module": "intel_uncore",
+        "driver": "ie31200_edac",
+        "driver_module": "ie31200_edac",
         "drivers": [
-          "skl_uncore"
+          "ie31200_edac"
         ],
         "driver_modules": [
-          "intel_uncore"
+          "ie31200_edac"
         ],
         "module_alias": "pci:v00008086d00003EC6sv000015D9sd00001A1Bbc06sc00i00"
       }
@@ -653,7 +653,7 @@
           "name": "U001",
           "value": 0
         },
-        "serial": "220233EC8DAD",
+        "serial": "220233EC922E",
         "model": "Micron_5300_MTFD",
         "sysfs_id": "/class/block/sda",
         "sysfs_bus_id": "3:0:0:0",
@@ -666,9 +666,9 @@
           "range": 16
         },
         "unix_device_names": [
-          "/dev/disk/by-diskseq/13",
-          "/dev/disk/by-id/ata-Micron_5300_MTFDDAK480TDS_220233EC8DAD",
-          "/dev/disk/by-id/wwn-0x500a075133ec8dad",
+          "/dev/disk/by-diskseq/10",
+          "/dev/disk/by-id/ata-Micron_5300_MTFDDAK480TDS_220233EC922E",
+          "/dev/disk/by-id/wwn-0x500a075133ec922e",
           "/dev/disk/by-path/pci-0000:00:17.0-ata-4",
           "/dev/disk/by-path/pci-0000:00:17.0-ata-4.0",
           "/dev/sda"
@@ -1116,18 +1116,18 @@
         "model": "ATEN International Keyboard",
         "sysfs_id": "/devices/pci0000:00/0000:00:14.0/usb1/1-13/1-13.1/1-13.1:1.0",
         "sysfs_bus_id": "1-13.1:1.0",
-        "unix_device_name": "/dev/input/event2",
+        "unix_device_name": "/dev/input/event0",
         "unix_device_number": {
           "type": 99,
           "major": 13,
-          "minor": 66,
+          "minor": 64,
           "range": 1
         },
         "unix_device_names": [
           "/dev/input/by-id/usb-0557_2419-event-kbd",
           "/dev/input/by-path/pci-0000:00:14.0-usb-0:13.1:1.0-event-kbd",
           "/dev/input/by-path/pci-0000:00:14.0-usbv2-0:13.1:1.0-event-kbd",
-          "/dev/input/event2"
+          "/dev/input/event0"
         ],
         "resources": [
           {
@@ -1204,7 +1204,7 @@
           {
             "type": "mem",
             "base": 0,
-            "range": 33554948096,
+            "range": 33554952192,
             "enabled": true,
             "access": "read_write",
             "prefetch": "unknown"
@@ -1604,7 +1604,7 @@
       },
       {
         "index": 47,
-        "attached_to": 33,
+        "attached_to": 25,
         "class_list": [
           "network_interface"
         ],
@@ -1619,11 +1619,11 @@
           "value": 1
         },
         "model": "Ethernet network interface",
-        "sysfs_id": "/class/net/enp1s0f1",
-        "sysfs_device_link": "/devices/pci0000:00/0000:00:01.0/0000:01:00.1",
-        "unix_device_name": "enp1s0f1",
+        "sysfs_id": "/class/net/enp1s0f0",
+        "sysfs_device_link": "/devices/pci0000:00/0000:00:01.0/0000:01:00.0",
+        "unix_device_name": "enp1s0f0",
         "unix_device_names": [
-          "enp1s0f1"
+          "enp1s0f0"
         ],
         "resources": [
           {
@@ -1646,7 +1646,7 @@
       },
       {
         "index": 48,
-        "attached_to": 25,
+        "attached_to": 33,
         "class_list": [
           "network_interface"
         ],
@@ -1661,11 +1661,11 @@
           "value": 1
         },
         "model": "Ethernet network interface",
-        "sysfs_id": "/class/net/enp1s0f0",
-        "sysfs_device_link": "/devices/pci0000:00/0000:00:01.0/0000:01:00.0",
-        "unix_device_name": "enp1s0f0",
+        "sysfs_id": "/class/net/enp1s0f1",
+        "sysfs_device_link": "/devices/pci0000:00/0000:00:01.0/0000:01:00.1",
+        "unix_device_name": "enp1s0f1",
         "unix_device_names": [
-          "enp1s0f0"
+          "enp1s0f1"
         ],
         "resources": [
           {
