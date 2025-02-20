@@ -17,7 +17,9 @@
     useNetworkd = true;
 
     # used by useNetworkd for dynamic network discovery
-    dhcpcd = true;
+    dhcpcd = {
+      enable = true;
+    };
 
     # this is for desktops an wifi, ensure disable it
     networkmanager.enable = false;
@@ -44,13 +46,13 @@
       ];
 
       # we leave `interfaces` and `defaultGateway` to automatic configuration
+    };
 
       nameservers = [
         "8.8.8.8" # US Google
         "1.1.1.1" # US Cloudflare
         "95.85.95.85" # EU
-      ]; 
-    };
+      ];     
   };
 
   /* enables networkd */

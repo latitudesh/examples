@@ -11,7 +11,8 @@
   boot.loader.grub.efiInstallAsRemovable = false;
   boot.loader.grub.enable = true;
   # no need to set devices, disko will add all devices that have a EF02 partition to the list already
-  boot.loader.grub.device = "/dev/sda";
+  # use `mirroredBoots` for RAID-1
+  boot.loader.grub.devices = ["/dev/sda"];
   boot.loader.systemd-boot.enable = false;
   boot.loader.efi.canTouchEfiVariables = false;
 

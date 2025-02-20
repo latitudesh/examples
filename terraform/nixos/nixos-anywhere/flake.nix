@@ -6,22 +6,23 @@
 
   outputs =
     {
-      nixpkgs,
       disko,
+      nixpkgs,
       nixos-facter-modules,
-      srvos,
       ...
     }:
     {
       nixosConfigurations.default = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-
+           disko.nixosModules.disko
+           nixos-facter-modules.nixosModules.facter
           ./configuration.nix
-          
-          ./srvos.nix
-          # srvos.nixosModules.hardware-hetzner-online-intel
         ];
       };
     };
 }
+
+
+
+

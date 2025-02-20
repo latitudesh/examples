@@ -68,12 +68,12 @@ resource "latitudesh_server" "ubuntu" {
   user_data        = latitudesh_user_data.init.id
 }
 
-resource "null_resource" "nixos" {
-  depends_on = [ latitudesh_server.ubuntu ]
-  provisioner "local-exec" {
-    command = "nix run github:nix-community/nixos-anywhere -- --flake .#default --generate-hardware-config nixos-facter facter.json ubuntu@${latitudesh_server.ubuntu.primary_ipv4}"
-  }
-}
+# resource "null_resource" "nixos" {
+#   depends_on = [ latitudesh_server.ubuntu ]
+#   provisioner "local-exec" {
+#     command = "nix run github:nix-community/nixos-anywhere -- --flake .#default --generate-hardware-config nixos-facter facter.json ubuntu@${latitudesh_server.ubuntu.primary_ipv4}"
+#   }
+# }
 
 
 output "ssh_connection" {

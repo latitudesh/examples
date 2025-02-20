@@ -1,13 +1,9 @@
 # would be awesome to use systemd-boot and EFI - simpler/faster,
 # but LatSh does not have that
 {
-  inputs,
   ...
 }:
 {
-  imports = [
-    inputs.disko.nixosModules.disko
-  ];
   # allows to boot from raids
   boot.swraid.enable = false;
 

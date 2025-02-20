@@ -9,27 +9,26 @@
   ...
 }:
 {
-  /* autologin into TTY1 */
- services.getty.autologinUser = "ubuntu"; 
- /* ensure enabled */
- systemd.services."getty@tty1".enable = false;
-
-
+  # autologin into tty0
+  services.getty.autologinUser = "ubuntu";
+  # ensure enabled
+  systemd.services."getty@tty0".enable = false;
 
   services.openssh = {
-    /* same as services.sshd.enable = false; */
+    # same as services.sshd.enable = false;
     enable = true;
-    /* setting port explicitly */
+    # setting port explicitly
     ports = [ 22 ];
-    settings.PasswordAuthentication = false;    
+    settings.PasswordAuthentication = false;
     settings.PermitRootLogin = "prohibit-password";
-    /* just ensure no other login techs */
+    # just ensure no other login techs
     settings.UsePAM = false;
+    settings.LogLevel = "INFO";
   };
   security.polkit.enable = true;
-  /* 
-  su/sudo/ssh do not ask password
-  same as initialHashedPassword
+  /*
+    su/sudo/ssh do not ask password
+    same as initialHashedPassword
   */
   users.users.root.hashedPassword = "";
   security.sudo = {
@@ -55,7 +54,6 @@
     ];
   };
 
-
   users.users.ubuntu = {
     isNormalUser = true;
     home = "/home/ubuntu";
@@ -63,10 +61,10 @@
       "wheel"
       "root"
     ];
-    hashedPassword= "";
+    hashedPassword = "";
     # yeah, need to make it flake input (so can override it as needed)
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO/PGg+j/Y5gP/e7zyMCyK+f0YfImZgKZ3IUUWmkoGtT dzmitry@nullstudios.xyz"
     ];
-  };  
+  };
 }
