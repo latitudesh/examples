@@ -1,4 +1,12 @@
+# would be awesome to use systemd-boot and EFI - simpler/faster,
+# but LatSh does not have that
 {
+...
+}:
+{
+  /* allows to boot from raids */
+   boot.swraid.enable = false;
+
   disko.devices = {
     disk = {
       main = {
@@ -10,18 +18,8 @@
             boot = {
               name = "boot";
               size = "1M";
-              type = "EF02"; # for grub MBR
-            };
-            esp = {
-              name = "esp";
-              type = "EF00";
-              size = "500M";
-              content = {
-                type = "filesystem";
-                format = "vfat";
-                mountpoint = "/boot";
-                # mountOptions = [ "umask=0077" ];
-              };
+              /* for grub MBR */
+              type = "EF02";
             };
             root = {
               name = "root";

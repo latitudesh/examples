@@ -57,6 +57,7 @@ resource "latitudesh_user_data" "init" {
 }
 
 resource "latitudesh_server" "ubuntu-clean" {
+  raid = "raid-1"
   hostname         = "c2-small-x86-SAO2-nixos"
   plan             = "c2-small-x86"
   operating_system = "ubuntu_24_04_x64_lts"
@@ -69,6 +70,7 @@ resource "latitudesh_server" "ubuntu-clean" {
 }
 
 resource "latitudesh_server" "ubuntu" {
+  raid = "raid-1"
   hostname         = "c2-small-x86-SAO2-nixos"
   plan             = "c2-small-x86"
   operating_system = "ubuntu_24_04_x64_lts"
@@ -91,7 +93,7 @@ resource "null_resource" "nixos" {
 resource "null_resource" "nixos2" {
   depends_on = [ latitudesh_server.ubuntu ]
   provisioner "local-exec" {
-    command = "nix run github:nix-community/nixos-anywhere -- --flake .#default --generate-hardware-config nixos-facter facter.json ubuntu@${latitudesh_server.ubuntu-clean.primary_ipv4}"
+    command = "nix run github:nix-community/nixos-anywhere -- --flake .#default --generate-hardware-config nixos-facter facter.json ubuntu@103.14.27.107"
   }
 }
 

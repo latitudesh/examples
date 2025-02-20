@@ -7,6 +7,12 @@
 }:
 {
   networking = {
+    /* empty allows to get it from DHCP.
+      not clear if it would be good to set it to subdomain for example, but option
+      integration is intresting to do
+     */
+    hostName = "";
+
     # automatic for servers, little bit bloated then manual, but generic and just works
     useNetworkd = true;
 
@@ -50,3 +56,23 @@
   /* enables networkd */
   systemd.network.enable = true;
 }
+
+
+  # networking.defaultGateway = {
+  #   address = "103.14.27.184";
+  #   interface = "enp1s0f0";
+  # };
+  # networking.interfaces = {
+  #   enp1s0f0 = {
+  #     enable = true;
+  #     dhcp4 = false;
+  #     # ipv4 = {
+  #     #   addresses = [
+  #     #     {
+  #     #       address = "103.14.27.107";
+  #     #       prefixLength = 31;
+  #     #     }
+  #     #   ];
+  #     # };
+  #   };
+  # };
