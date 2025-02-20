@@ -4,11 +4,16 @@
   inputs.disko.url = "github:nix-community/disko";
   inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
   inputs.nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
+  inputs.srvos.url = "github:nix-community/srvos";
+  # Use the version of nixpkgs that has been tested to work with SrvOS
+  # Alternatively we also support the latest nixos release and unstable
+  inputs.nixpkgs.follows = "srvos/nixpkgs";
   outputs =
     {
       nixpkgs,
       disko,
       nixos-facter-modules,
+      srvos,
       ...
     }:
     {
@@ -21,6 +26,8 @@
           {
             config.facter.reportPath = ./facter.json;
           }
+          ./srvos.nix
+          # srvos.nixosModules.hardware-hetzner-online-intel
         ];
       };
     };
