@@ -11,7 +11,8 @@
   boot.loader.grub.enable = true;
   # no need to set devices, disko will add all devices that have a EF02 partition to the list already
   # use `mirroredBoots` for RAID-1
-  boot.loader.grub.devices = [ "/dev/sda" ];
+  # next to be empty for non RAID-1, disko sets proper value
+  # boot.loader.grub.device(s)
   boot.loader.systemd-boot.enable = false;
   boot.loader.efi.canTouchEfiVariables = false;
 
