@@ -1,0 +1,10 @@
+# cloud-init
+# config to ensure we do not need password, but use ssh key
+ssh_pwauth: false
+users:
+  - name: ubuntu
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh_authorized_keys:
+      - ${ssh_key}
+    lock_passwd: true
+    ssh_pwauth: false
