@@ -23,8 +23,8 @@
     },
     "bridge": [
       {
-        "index": 16,
-        "attached_to": 22,
+        "index": 12,
+        "attached_to": 18,
         "class_list": [
           "pci",
           "bridge"
@@ -97,7 +97,7 @@
         "module_alias": "pci:v00001A03d00001150sv00001A03sd00001150bc06sc04i00"
       },
       {
-        "index": 20,
+        "index": 16,
         "attached_to": 0,
         "class_list": [
           "pci",
@@ -157,7 +157,7 @@
         "module_alias": "pci:v00008086d0000A309sv000015D9sd00001A1Bbc06sc01i00"
       },
       {
-        "index": 22,
+        "index": 18,
         "attached_to": 0,
         "class_list": [
           "pci",
@@ -235,7 +235,7 @@
         "module_alias": "pci:v00008086d0000A32Csv00008086sd00007270bc06sc04i00"
       },
       {
-        "index": 23,
+        "index": 19,
         "attached_to": 0,
         "class_list": [
           "pci",
@@ -312,7 +312,7 @@
         "module_alias": "pci:v00008086d00001901sv000015D9sd00001A1Bbc06sc04i00"
       },
       {
-        "index": 26,
+        "index": 22,
         "attached_to": 0,
         "class_list": [
           "pci",
@@ -389,7 +389,7 @@
         "module_alias": "pci:v00008086d0000A340sv000015D9sd00001A1Bbc06sc04i00"
       },
       {
-        "index": 29,
+        "index": 25,
         "attached_to": 0,
         "class_list": [
           "pci",
@@ -424,8 +424,8 @@
           "value": 5593
         },
         "device": {
-          "hex": "3ec6",
-          "value": 16070
+          "hex": "3e33",
+          "value": 15923
         },
         "sub_device": {
           "hex": "1a1b",
@@ -454,7 +454,7 @@
         "driver_modules": [
           "ie31200_edac"
         ],
-        "module_alias": "pci:v00008086d00003EC6sv000015D9sd00001A1Bbc06sc00i00"
+        "module_alias": "pci:v00008086d00003E33sv000015D9sd00001A1Bbc06sc00i00"
       }
     ],
     "cpu": [
@@ -597,12 +597,12 @@
           "retbleed",
           "gds"
         ],
-        "bogo": 7599.8,
-        "cache": 12288,
+        "bogo": 7200,
+        "cache": 8192,
         "units": 16,
         "physical_id": 0,
-        "siblings": 12,
-        "cores": 6,
+        "siblings": 8,
+        "cores": 4,
         "fpu": true,
         "fpu_exception": true,
         "cpuid_level": 22,
@@ -617,8 +617,8 @@
     ],
     "disk": [
       {
-        "index": 40,
-        "attached_to": 17,
+        "index": 36,
+        "attached_to": 13,
         "class_list": [
           "disk",
           "ide",
@@ -643,18 +643,23 @@
           "name": "Disk",
           "value": 0
         },
+        "vendor": {
+          "hex": "0000",
+          "name": "Samsung",
+          "value": 0
+        },
         "device": {
           "hex": "0000",
-          "name": "Micron_5300_MTFD",
+          "name": "SSD 860",
           "value": 0
         },
         "revision": {
           "hex": "0000",
-          "name": "U001",
+          "name": "4B6Q",
           "value": 0
         },
-        "serial": "220233EC922E",
-        "model": "Micron_5300_MTFD",
+        "serial": "S5J9NJ0N109804A",
+        "model": "Samsung SSD 860",
         "sysfs_id": "/class/block/sda",
         "sysfs_bus_id": "3:0:0:0",
         "sysfs_device_link": "/devices/pci0000:00/0000:00:17.0/ata4/host3/target3:0:0/3:0:0:0",
@@ -667,8 +672,8 @@
         },
         "unix_device_names": [
           "/dev/disk/by-diskseq/10",
-          "/dev/disk/by-id/ata-Micron_5300_MTFDDAK480TDS_220233EC922E",
-          "/dev/disk/by-id/wwn-0x500a075133ec922e",
+          "/dev/disk/by-id/ata-Samsung_SSD_860_EVO_500GB_S5J9NJ0N109804A",
+          "/dev/disk/by-id/wwn-0x5002538e30112d66",
           "/dev/disk/by-path/pci-0000:00:17.0-ata-4",
           "/dev/disk/by-path/pci-0000:00:17.0-ata-4.0",
           "/dev/sda"
@@ -677,7 +682,7 @@
         "resources": [
           {
             "type": "disk_geo",
-            "cylinders": 58369,
+            "cylinders": 60801,
             "heads": 255,
             "sectors": 63,
             "size": 0,
@@ -686,7 +691,7 @@
           {
             "type": "size",
             "unit": "sectors",
-            "value_1": 937703088,
+            "value_1": 976773168,
             "value_2": 512
           }
         ],
@@ -704,8 +709,8 @@
     ],
     "graphics_card": [
       {
-        "index": 35,
-        "attached_to": 16,
+        "index": 31,
+        "attached_to": 12,
         "class_list": [
           "graphics_card",
           "pci"
@@ -840,8 +845,8 @@
     ],
     "hub": [
       {
-        "index": 42,
-        "attached_to": 36,
+        "index": 38,
+        "attached_to": 32,
         "class_list": [
           "usb",
           "hub"
@@ -923,8 +928,8 @@
         "module_alias": "usb:v1D6Bp0002d0612dc09dsc00dp01ic09isc00ip00in00"
       },
       {
-        "index": 44,
-        "attached_to": 36,
+        "index": 40,
+        "attached_to": 32,
         "class_list": [
           "usb",
           "hub"
@@ -996,8 +1001,8 @@
         "module_alias": "usb:v1D6Bp0003d0612dc09dsc00dp03ic09isc00ip00in00"
       },
       {
-        "index": 45,
-        "attached_to": 42,
+        "index": 41,
+        "attached_to": 38,
         "class_list": [
           "usb",
           "hub"
@@ -1074,8 +1079,8 @@
     ],
     "keyboard": [
       {
-        "index": 41,
-        "attached_to": 45,
+        "index": 37,
+        "attached_to": 41,
         "class_list": [
           "keyboard",
           "usb"
@@ -1184,7 +1189,7 @@
     ],
     "memory": [
       {
-        "index": 15,
+        "index": 11,
         "attached_to": 0,
         "class_list": [
           "memory"
@@ -1204,7 +1209,7 @@
           {
             "type": "mem",
             "base": 0,
-            "range": 33554952192,
+            "range": 33557123072,
             "enabled": true,
             "access": "read_write",
             "prefetch": "unknown"
@@ -1218,8 +1223,8 @@
     ],
     "mouse": [
       {
-        "index": 43,
-        "attached_to": 45,
+        "index": 39,
+        "attached_to": 41,
         "class_list": [
           "mouse",
           "usb"
@@ -1340,8 +1345,8 @@
     ],
     "network_controller": [
       {
-        "index": 25,
-        "attached_to": 23,
+        "index": 21,
+        "attached_to": 19,
         "class_list": [
           "network_controller",
           "pci"
@@ -1396,7 +1401,7 @@
         "resources": [
           {
             "type": "hwaddr",
-            "address": 51
+            "address": 97
           },
           {
             "type": "io",
@@ -1437,7 +1442,7 @@
           },
           {
             "type": "phwaddr",
-            "address": 51
+            "address": 97
           }
         ],
         "detail": {
@@ -1459,8 +1464,8 @@
         "module_alias": "pci:v00008086d00001521sv000015D9sd00000652bc02sc00i00"
       },
       {
-        "index": 33,
-        "attached_to": 23,
+        "index": 29,
+        "attached_to": 19,
         "class_list": [
           "network_controller",
           "pci"
@@ -1515,7 +1520,7 @@
         "resources": [
           {
             "type": "hwaddr",
-            "address": 51
+            "address": 97
           },
           {
             "type": "io",
@@ -1556,7 +1561,7 @@
           },
           {
             "type": "phwaddr",
-            "address": 51
+            "address": 97
           }
         ],
         "detail": {
@@ -1580,31 +1585,8 @@
     ],
     "network_interface": [
       {
-        "index": 46,
-        "attached_to": 0,
-        "class_list": [
-          "network_interface"
-        ],
-        "base_class": {
-          "hex": "0107",
-          "name": "Network Interface",
-          "value": 263
-        },
-        "sub_class": {
-          "hex": "0000",
-          "name": "Loopback",
-          "value": 0
-        },
-        "model": "Loopback network interface",
-        "sysfs_id": "/class/net/lo",
-        "unix_device_name": "lo",
-        "unix_device_names": [
-          "lo"
-        ]
-      },
-      {
-        "index": 47,
-        "attached_to": 25,
+        "index": 42,
+        "attached_to": 21,
         "class_list": [
           "network_interface"
         ],
@@ -1628,11 +1610,11 @@
         "resources": [
           {
             "type": "hwaddr",
-            "address": 51
+            "address": 97
           },
           {
             "type": "phwaddr",
-            "address": 51
+            "address": 97
           }
         ],
         "driver": "igb",
@@ -1645,8 +1627,31 @@
         ]
       },
       {
-        "index": 48,
-        "attached_to": 33,
+        "index": 43,
+        "attached_to": 0,
+        "class_list": [
+          "network_interface"
+        ],
+        "base_class": {
+          "hex": "0107",
+          "name": "Network Interface",
+          "value": 263
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Loopback",
+          "value": 0
+        },
+        "model": "Loopback network interface",
+        "sysfs_id": "/class/net/lo",
+        "unix_device_name": "lo",
+        "unix_device_names": [
+          "lo"
+        ]
+      },
+      {
+        "index": 44,
+        "attached_to": 29,
         "class_list": [
           "network_interface"
         ],
@@ -1670,11 +1675,11 @@
         "resources": [
           {
             "type": "hwaddr",
-            "address": 51
+            "address": 97
           },
           {
             "type": "phwaddr",
-            "address": 51
+            "address": 97
           }
         ],
         "driver": "igb",
@@ -1689,7 +1694,7 @@
     ],
     "pci": [
       {
-        "index": 18,
+        "index": 14,
         "attached_to": 0,
         "class_list": [
           "pci",
@@ -1761,7 +1766,7 @@
         "module_alias": "pci:v00008086d00001911sv000015D9sd00001A1Bbc08sc80i00"
       },
       {
-        "index": 19,
+        "index": 15,
         "attached_to": 0,
         "class_list": [
           "pci",
@@ -1844,7 +1849,7 @@
         "module_alias": "pci:v00008086d0000A369sv000015D9sd00001A1Bbc0Csc80i00"
       },
       {
-        "index": 21,
+        "index": 17,
         "attached_to": 0,
         "class_list": [
           "pci",
@@ -1920,7 +1925,7 @@
         "module_alias": "pci:v00008086d0000A364sv000015D9sd00001A1Bbc07sc80i00"
       },
       {
-        "index": 24,
+        "index": 20,
         "attached_to": 0,
         "class_list": [
           "pci",
@@ -1996,7 +2001,7 @@
         "module_alias": "pci:v00008086d0000A360sv000015D9sd00001A1Bbc07sc80i00"
       },
       {
-        "index": 27,
+        "index": 23,
         "attached_to": 0,
         "class_list": [
           "pci",
@@ -2073,7 +2078,7 @@
         "module_alias": "pci:v00008086d0000A324sv000015D9sd00001A1Bbc0Csc80i00"
       },
       {
-        "index": 28,
+        "index": 24,
         "attached_to": 0,
         "class_list": [
           "pci",
@@ -2157,7 +2162,7 @@
         "module_alias": "pci:v00008086d0000A328sv000015D9sd00001A1Bbc07sc80i00"
       },
       {
-        "index": 30,
+        "index": 26,
         "attached_to": 0,
         "class_list": [
           "pci",
@@ -2241,7 +2246,7 @@
         "module_alias": "pci:v00008086d0000A379sv000015D9sd00001A1Bbc11sc80i00"
       },
       {
-        "index": 31,
+        "index": 27,
         "attached_to": 0,
         "class_list": [
           "pci",
@@ -2324,7 +2329,7 @@
         "module_alias": "pci:v00008086d0000A368sv000015D9sd00001A1Bbc0Csc80i00"
       },
       {
-        "index": 32,
+        "index": 28,
         "attached_to": 0,
         "class_list": [
           "pci",
@@ -2400,7 +2405,7 @@
         "module_alias": "pci:v00008086d0000A361sv000015D9sd00001A1Bbc07sc80i00"
       },
       {
-        "index": 34,
+        "index": 30,
         "attached_to": 0,
         "class_list": [
           "pci",
@@ -2479,7 +2484,7 @@
         "module_alias": "pci:v00008086d0000A36Fsv00008086sd00007270bc05sc00i00"
       },
       {
-        "index": 37,
+        "index": 33,
         "attached_to": 0,
         "class_list": [
           "pci",
@@ -2572,7 +2577,7 @@
     ],
     "storage_controller": [
       {
-        "index": 17,
+        "index": 13,
         "attached_to": 0,
         "class_list": [
           "storage_controller",
@@ -2701,7 +2706,7 @@
     },
     "unknown": [
       {
-        "index": 38,
+        "index": 34,
         "attached_to": 0,
         "class_list": [
           "unknown"
@@ -2748,7 +2753,7 @@
         ]
       },
       {
-        "index": 39,
+        "index": 35,
         "attached_to": 0,
         "class_list": [
           "unknown"
@@ -2797,7 +2802,7 @@
     ],
     "usb_controller": [
       {
-        "index": 36,
+        "index": 32,
         "attached_to": 0,
         "class_list": [
           "usb_controller",
@@ -2890,8 +2895,8 @@
     "bios": {
       "handle": 0,
       "vendor": "American Megatrends Inc.",
-      "version": "1.7",
-      "date": "12/02/2021",
+      "version": "1.2",
+      "date": "11/21/2019",
       "features": [
         "PCI supported",
         "BIOS flashable",
@@ -2934,8 +2939,8 @@
       {
         "handle": 28,
         "socket": "L1 Cache",
-        "size_max": 384,
-        "size_current": 384,
+        "size_max": 256,
+        "size_current": 256,
         "speed": 0,
         "mode": {
           "hex": "0001",
@@ -2975,8 +2980,8 @@
       {
         "handle": 29,
         "socket": "L2 Cache",
-        "size_max": 1536,
-        "size_current": 1536,
+        "size_max": 1024,
+        "size_current": 1024,
         "speed": 0,
         "mode": {
           "hex": "0001",
@@ -3016,8 +3021,8 @@
       {
         "handle": 30,
         "socket": "L3 Cache",
-        "size_max": 12288,
-        "size_current": 12288,
+        "size_max": 8192,
+        "size_current": 8192,
         "speed": 0,
         "mode": {
           "hex": "0001",
@@ -3098,6 +3103,13 @@
           180388626459,
           42
         ]
+      },
+      {
+        "handle": 45,
+        "name": "$MEI",
+        "handles": [
+          0
+        ]
       }
     ],
     "memory_array": [
@@ -3137,58 +3149,33 @@
         "handle": 32,
         "location": "DIMMA1",
         "bank_location": "P0_Node0_Channel0_Dimm0",
-        "manufacturer": "",
-        "part_number": "",
+        "manufacturer": "Micron",
+        "part_number": "18ADF2G72AZ-2G6E1",
         "array_handle": 17,
         "error_handle": 65534,
-        "width": 0,
-        "ecc_bits": 0,
-        "size": 0,
+        "width": 64,
+        "ecc_bits": 8,
+        "size": 16777216,
         "form_factor": {
-          "hex": "0002",
-          "name": "Unknown",
-          "value": 2
+          "hex": "0009",
+          "name": "DIMM",
+          "value": 9
         },
         "set": 0,
         "memory_type": {
-          "hex": "0002",
-          "name": "Unknown",
-          "value": 2
+          "hex": "001a",
+          "name": "Other",
+          "value": 26
         },
-        "memory_type_details": null,
-        "speed": 0
+        "memory_type_details": [
+          "Synchronous"
+        ],
+        "speed": 2667
       },
       {
         "handle": 33,
         "location": "DIMMA2",
         "bank_location": "P0_Node0_Channel0_Dimm1",
-        "manufacturer": "Micron",
-        "part_number": "18ADF2G72AZ-3G2R1",
-        "array_handle": 17,
-        "error_handle": 65534,
-        "width": 64,
-        "ecc_bits": 8,
-        "size": 16777216,
-        "form_factor": {
-          "hex": "0009",
-          "name": "DIMM",
-          "value": 9
-        },
-        "set": 0,
-        "memory_type": {
-          "hex": "001a",
-          "name": "Other",
-          "value": 26
-        },
-        "memory_type_details": [
-          "Synchronous"
-        ],
-        "speed": 3200
-      },
-      {
-        "handle": 34,
-        "location": "DIMMB1",
-        "bank_location": "P0_Node0_Channel1_Dimm0",
         "manufacturer": "",
         "part_number": "",
         "array_handle": 17,
@@ -3211,11 +3198,11 @@
         "speed": 0
       },
       {
-        "handle": 35,
-        "location": "DIMMB2",
-        "bank_location": "P0_Node0_Channel1_Dimm1",
+        "handle": 34,
+        "location": "DIMMB1",
+        "bank_location": "P0_Node0_Channel1_Dimm0",
         "manufacturer": "Micron",
-        "part_number": "18ADF2G72AZ-3G2R1",
+        "part_number": "18ADF2G72AZ-2G6E1",
         "array_handle": 17,
         "error_handle": 65534,
         "width": 64,
@@ -3235,13 +3222,38 @@
         "memory_type_details": [
           "Synchronous"
         ],
-        "speed": 3200
+        "speed": 2667
+      },
+      {
+        "handle": 35,
+        "location": "DIMMB2",
+        "bank_location": "P0_Node0_Channel1_Dimm1",
+        "manufacturer": "",
+        "part_number": "",
+        "array_handle": 17,
+        "error_handle": 65534,
+        "width": 0,
+        "ecc_bits": 0,
+        "size": 0,
+        "form_factor": {
+          "hex": "0002",
+          "name": "Unknown",
+          "value": 2
+        },
+        "set": 0,
+        "memory_type": {
+          "hex": "0002",
+          "name": "Unknown",
+          "value": 2
+        },
+        "memory_type_details": null,
+        "speed": 0
       }
     ],
     "memory_device_mapped_address": [
       {
         "handle": 36,
-        "memory_device_handle": 33,
+        "memory_device_handle": 32,
         "array_map_handle": 22,
         "start_address": 0,
         "end_address": 17179869184,
@@ -3251,7 +3263,7 @@
       },
       {
         "handle": 37,
-        "memory_device_handle": 35,
+        "memory_device_handle": 34,
         "array_map_handle": 22,
         "start_address": 17179869184,
         "end_address": 34359738368,
@@ -3271,7 +3283,7 @@
         },
         "socket_populated": true,
         "manufacturer": "Intel(R) Corporation",
-        "version": "Intel(R) Xeon(R) E-2276G CPU @ 3.80GHz",
+        "version": "Intel(R) Xeon(R) E-2234 CPU @ 3.60GHz",
         "part": "To Be Filled By O.E.M.",
         "processor_type": {
           "hex": "0003",

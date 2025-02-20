@@ -37,13 +37,13 @@
       #   "ntp3.hetzner.de"
       # ];
 
-      systemd.network.networks."10-uplink" = {
-        matchConfig.Name = lib.mkDefault "en* enp1s0f0";
-        networkConfig.DHCP = "ipv4";
-        # hetzner requires static ipv6 addresses
-        networkConfig.Gateway = "fe80::1";
-        networkConfig.IPv6AcceptRA = "no";
-      };
+      # systemd.network.networks."10-uplink" = {
+      #   matchConfig.Name = lib.mkDefault "en* enp1s0f0";
+      #   networkConfig.DHCP = "ipv4";
+      #   # hetzner requires static ipv6 addresses
+      #   networkConfig.Gateway = "fe80::1";
+      #   networkConfig.IPv6AcceptRA = "no";
+      # };
 
       # This option defaults to `networking.useDHCP` which we don't enable
       # however we do use DHCPv4 as part of `10-uplink`, so we want to
@@ -52,7 +52,8 @@
 
       # Network configuration i.e. when we unlock machines with openssh in the initrd
       boot.initrd.systemd.network.networks."10-uplink" = config.systemd.network.networks."10-uplink";
-
+      boot.kernelModules = [ "kvm-intel" ];
+      hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     }
     // (lib.optionalAttrs ((options.srvos.boot or { }) ? consoles) {
 

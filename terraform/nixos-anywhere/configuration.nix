@@ -23,20 +23,10 @@
   # boot.loader.systemd-boot.enable = true;
   boot.loader.timeout = 1;
   # boot.swraid.enable = false;
-  # systemd.network.enable = true;
   boot.loader = {
     efi = {
       canTouchEfiVariables = true;
     };
-  };
-  networking.firewall = {
-    allowedTCPPorts = [
-      22
-      80
-      443
-      8080
-      8443
-    ];
   };
 
   # networking.defaultGateway = {
