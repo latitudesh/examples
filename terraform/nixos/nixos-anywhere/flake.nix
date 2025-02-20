@@ -1,28 +1,53 @@
 {
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-  inputs.disko.url = "github:nix-community/disko";
-  inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
-  inputs.nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
+  description = "Instantiate Ubuntu and deploy Nixos WebServer on it";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
+  };
 
   outputs =
-    {
+    inputs@{
+      flake-parts,
       disko,
       nixpkgs,
       nixos-facter-modules,
       ...
     }:
-    {
-      nixosConfigurations.default = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-           disko.nixosModules.disko
-           nixos-facter-modules.nixosModules.facter
-          ./configuration.nix
-        ];
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [
+        "x86_64-linux"
+        "aarch64-darwin"
+        "x86_64-darwin"
+      ];
+      perSystem =
+        {
+          config,
+          self',
+          inputs',
+          pkgs,
+          system,
+          ...
+        }:
+        {
+          formatter = pkgs.nixfmt-rfc-style;
+          devShells.default = pkgs.mkShell {
+            nativeBuildInputs = with pkgs; [
+              opentofu
+            ];
+          };
+        };
+      flake = {
+        nixosConfigurations.default = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            disko.nixosModules.disko
+            nixos-facter-modules.nixosModules.facter
+            ./configuration.nix
+          ];
+        };
       };
     };
 }
-
-
-
-

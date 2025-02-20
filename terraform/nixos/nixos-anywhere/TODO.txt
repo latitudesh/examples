@@ -1,0 +1,27 @@
+
+# resource "null_resource" "nixos" {
+#   depends_on = [ latitudesh_server.ubuntu ]
+#   provisioner "local-exec" {
+#     command = "
+
+# shift
+# + shift
+# + [ 0 -gt 0 ]
+# + init=/nix/store/4g9j050k7pnbb2n43dssv6sndfarl81n-nixos-system-nixos-installer-24.11pre-git/init
+# + kernelParams=nouveau.modeset=0 console=tty0 console=ttyS0,115200 root=fstab loglevel=4
+# + readlink -f /root/kexec/kexec/run
+# console=ttyS0
+# Pseudo-terminal will not be allocated because stdin is not a terminal.
+#nix run github:nix-community/nixos-anywhere -- --flake .#default --generate-hardware-config nixos-facter facter.json --target-host ubuntu@103.88.232.173 -i ~/.ssh/id_ed25519
+# --vm-test
+
+#   }
+# }
+
+
+# nix run github:nix-community/nixos-anywhere -- --flake .#default --generate-hardware-config nixos-facter facter.json --target-host ubuntu@${latitudesh_server.ubuntu.primary_ipv4} --vm-test
+
+
+https://docs.latitude.sh/reference/create-server-action
+
+

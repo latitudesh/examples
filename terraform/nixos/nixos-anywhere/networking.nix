@@ -1,4 +1,4 @@
-/* setups networking */
+# setups networking
 {
   modulesPath,
   lib,
@@ -7,10 +7,11 @@
 }:
 {
   networking = {
-    /* empty allows to get it from DHCP.
+    /*
+      empty allows to get it from DHCP.
       not clear if it would be good to set it to subdomain for example, but option
       integration is intresting to do
-     */
+    */
     hostName = "";
 
     # automatic for servers, little bit bloated then manual, but generic and just works
@@ -27,7 +28,7 @@
     useDHCP = false;
 
     firewall = {
-      /* opens well known ports, please consider to modify as needed */
+      # opens well known ports, please consider to modify as needed
       allowedTCPPorts = [
         22 # ssh
         80 # http
@@ -35,29 +36,26 @@
         8080 # alt-http
         8443 # alt-https
       ];
-      /* for http3 */
+      # for http3
       allowedUDPPorts = [
         80 # http
         443 # https
         8080 # alt-http
-        8443 # alt-https     
+        8443 # alt-https
         123 # ntp
-        53 # dns   
+        53 # dns
       ];
 
       # we leave `interfaces` and `defaultGateway` to automatic configuration
     };
 
-      nameservers = [
-        "8.8.8.8" # US Google
-        "1.1.1.1" # US Cloudflare
-        "95.85.95.85" # EU
-      ];     
+    nameservers = [
+      "8.8.8.8" # US Google
+      "1.1.1.1" # US Cloudflare
+      "95.85.95.85" # EU
+    ];
   };
 
-  /* enables networkd */
+  # enables networkd
   systemd.network.enable = true;
 }
-
-
-

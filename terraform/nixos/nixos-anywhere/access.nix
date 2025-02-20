@@ -43,7 +43,6 @@
         commands = [
           {
             command = "ALL";
-
             options = [
               "NOPASSWD"
               "SETENV"
@@ -53,7 +52,8 @@
       }
     ];
   };
-
+  # we should set that
+  # users.mutableUsers = false;
   users.users.ubuntu = {
     isNormalUser = true;
     home = "/home/ubuntu";

@@ -1,4 +1,4 @@
-{  ... }:
+{ ... }:
 {
   facter.reportPath = ./facter.json;
 }

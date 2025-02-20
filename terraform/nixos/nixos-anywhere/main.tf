@@ -42,9 +42,9 @@ resource "latitudesh_project" "project" {
   provisioning_type = "on_demand"
 }
 
-resource "latitudesh_ssh_key" "root" {
+resource "latitudesh_ssh_key" "ubuntu" {
   project    = latitudesh_project.project.id
-  name       = "admin"
+  name       = "ubuntu"
   public_key = var.SSH_PUBLIC_KEY
 }
 
@@ -62,19 +62,11 @@ resource "latitudesh_server" "ubuntu" {
   operating_system = "ubuntu_24_04_x64_lts"
   project          = latitudesh_project.project.id
   site             = "SAO2"
-  ssh_keys         = [latitudesh_ssh_key.root.id]
+  ssh_keys         = [latitudesh_ssh_key.ubuntu.id]
   billing          = "hourly"
   locked           = false
   user_data        = latitudesh_user_data.init.id
 }
-
-# resource "null_resource" "nixos" {
-#   depends_on = [ latitudesh_server.ubuntu ]
-#   provisioner "local-exec" {
-#     command = "nix run github:nix-community/nixos-anywhere -- --flake .#default --generate-hardware-config nixos-facter facter.json ubuntu@${latitudesh_server.ubuntu.primary_ipv4}"
-#   }
-# }
-
 
 output "ssh_connection" {
   value = "ssh ubuntu@${latitudesh_server.ubuntu.primary_ipv4}"

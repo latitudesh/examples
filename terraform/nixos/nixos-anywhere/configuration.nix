@@ -20,11 +20,8 @@
   system.stateVersion = "24.05";
 }
 
-
-
 # enp1s0f0
-# 
-
+#
 
 # null_resource.nixos (local-exec): + uname -r
 # null_resource.nixos (local-exec): + printf %s\n 6.1 6.8.0-53-generic
@@ -33,38 +30,35 @@
 # null_resource.nixos (local-exec): machine will boot into nixos in 6s...
 # null_resource.nixos (local-exec): + echo machine will boot into nixos in 6
 
+# network:
+#   network:
+#     version: 2
+#     ethernets:
+#       enp1s0f0:
+#         dhcp4: no
+#         addresses: [$PUBLIC_IP]
+#         gateway4: $PUBLIC_GATEWAY
+#         nameservers:
+#           addresses: [8.8.8.8, 8.8.4.4]
 
-  # network:
-  #   network:
-  #     version: 2
-  #     ethernets:
-  #       enp1s0f0:
-  #         dhcp4: no
-  #         addresses: [$PUBLIC_IP]
-  #         gateway4: $PUBLIC_GATEWAY
-  #         nameservers:
-  #           addresses: [8.8.8.8, 8.8.4.4]
-
-
-    # networking.defaultGateway = {
-  #   address = "103.14.27.184";
-  #   interface = "enp1s0f0";
-  # };
-  # networking.interfaces = {
-  #   enp1s0f0 = {
-  #     enable = true;
-  #     dhcp4 = false;
-  #     # ipv4 = {
-  #     #   addresses = [
-  #     #     {
-  #     #       address = "103.14.27.107";
-  #     #       prefixLength = 31;
-  #     #     }
-  #     #   ];
-  #     # };
-  #   };
-  # };
-
+# networking.defaultGateway = {
+#   address = "103.14.27.184";
+#   interface = "enp1s0f0";
+# };
+# networking.interfaces = {
+#   enp1s0f0 = {
+#     enable = true;
+#     dhcp4 = false;
+#     # ipv4 = {
+#     #   addresses = [
+#     #     {
+#     #       address = "103.14.27.107";
+#     #       prefixLength = 31;
+#     #     }
+#     #   ];
+#     # };
+#   };
+# };
 
 #     config =
 #     {
@@ -86,8 +80,6 @@
 #         # NVME
 #         "nvme"
 #       ];
-
-
 
 #       # systemd.network.networks."10-uplink" = {
 #       #   matchConfig.Name = lib.mkDefault "en* enp1s0f0";

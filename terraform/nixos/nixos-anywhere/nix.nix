@@ -1,5 +1,5 @@
-/* ensure we have flakes and caches */
-{config, ...}:
+# ensure we have flakes and caches
+{ config, ... }:
 {
 
   nix.settings = {
