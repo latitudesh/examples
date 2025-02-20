@@ -1,6 +1,5 @@
-
 #!/usr/bin/env bash
-# copied becase https://discourse.nixos.org/t/nixos-install-mount-command-not-found/59197 (so properly use nix patch)
+
 set -euo pipefail
 
 showUsage() {
@@ -262,7 +261,6 @@ main() {
     NIX_STATE_DIR=${mountPoint}/nix/var/nix nix-store --load-db < "${closure_info}/registration"
   fi
 
-  # copied becase https://discourse.nixos.org/t/nixos-install-mount-command-not-found/59197 (so properly use nix patch)
   env PATH="$PATH:/home/ubuntu/.nix-profile/bin/:" nixos-install --no-channel-copy --no-root-password --system "$nixos_system" --root "$mountPoint"
 }
 

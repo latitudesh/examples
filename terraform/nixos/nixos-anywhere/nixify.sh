@@ -6,5 +6,11 @@ chmod +x nix-installer
 ./nix-installer plan --verbose > nix-installer-plan.json
 ./nix-installer install --verbose --force nix-installer-plan.json --no-confirm
 source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-nix profile install nixpkgs#util-linux  nix profile install nixpkgs#disko | nix profile install nixpkgs#nixos-install | nix profile install nixpkgs#nixos-install-tools | nix profile install nixpkgs#nixos-facter | true
+
+nix profile install nixpkgs#util-linux 2>&1 > /dev/null
+nix profile install nixpkgs#disko 2>&1 > /dev/null
+nix profile install nixpkgs#nixos-install 2>&1 > /dev/null
+nix profile install nixpkgs#nixos-install-tools 2>&1 > /dev/null
+nix profile install nixpkgs#nixos-facter 2>&1 > /dev/null
+
 nix --version > nix-version.txt
