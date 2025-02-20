@@ -55,8 +55,13 @@ resource "latitudesh_user_data" "init" {
     ssh_key = var.SSH_PUBLIC_KEY
   }))
 }
+
+data "local_file" "nixify-sh" {
+  filename = "${path.module}/nixify.sh"
+}
+
 resource "latitudesh_server" "ubuntu" {
-  raid = "raid-1"
+  raid             = "raid-1"
   hostname         = "c2-small-x86-SAO2-nixos"
   plan             = "c2-small-x86"
   operating_system = "ubuntu_24_04_x64_lts"
@@ -67,6 +72,15 @@ resource "latitudesh_server" "ubuntu" {
   locked           = false
   user_data        = latitudesh_user_data.init.id
 }
+
+resource "null_resource" "nixos" {
+  depends_on = [latitudesh_server.ubuntu]
+  provisioner "local-exec" {
+    command = "./copy-config.sh ubuntu@${latitudesh_server.ubuntu.primary_ipv4}"
+  }
+}
+
+
 
 output "ssh_connection" {
   value = "ssh ubuntu@${latitudesh_server.ubuntu.primary_ipv4}"

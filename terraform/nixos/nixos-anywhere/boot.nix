@@ -3,8 +3,7 @@
   ...
 }:
 {
-
-  # default = "0";
+  boot.loader.grub.default = "0";
   boot.loader.timeout = 0;
   boot.loader.grub.splashImage = null;
   boot.loader.grub.efiSupport = false;
@@ -21,9 +20,5 @@
     enable = true;
     # systemd-networkd integration
     network.enable = true;
-    settings = {
-      datasource_list = [ "ConfigDrive" ];
-      datasource.ConfigDrive = { };
-    };
   };
 }

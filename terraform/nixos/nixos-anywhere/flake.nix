@@ -35,7 +35,9 @@
           formatter = pkgs.nixfmt-rfc-style;
           devShells.default = pkgs.mkShell {
             nativeBuildInputs = with pkgs; [
-              opentofu
+              opentofu # terraform 
+              # used to generate hardware configuration. generate once, and reuse for all specific machine type
+              facter
             ];
           };
         };

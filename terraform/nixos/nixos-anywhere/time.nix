@@ -22,7 +22,7 @@
       servers = [
         "time.cloudflare.com nts iburst" # US Cloudflare
         "nts.netnod.se nts iburst" # Stockholm
-        "	ntp.3eck.net nts iburst" # Switzerland
+        "ntp.3eck.net nts iburst" # Switzerland
         "ntpmon.dcs1.biz nts iburst" # Singapore
         "ntp1.glypnod.com nts iburst" # San Francisco
         "ntp2.glypnod.com nts iburst" # London
