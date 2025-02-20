@@ -6,9 +6,5 @@ chmod +x nix-installer
 ./nix-installer plan --verbose > nix-installer-plan.json
 ./nix-installer install --verbose --force nix-installer-plan.json --no-confirm
 source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-nix profile install nixpkgs#nixos-anywhere nixpkgs#disko nixpkgs#nixos-install nixpkgs#nixos-install-tools nixpkgs#nixos-facter  --priority 10
+nix profile install nixpkgs#util-linux  nix profile install nixpkgs#disko | nix profile install nixpkgs#nixos-install | nix profile install nixpkgs#nixos-install-tools | nix profile install nixpkgs#nixos-facter | true
 nix --version > nix-version.txt
-nix flake lock
-nix flake check
-sudo env PATH=$PATH:/home/ubuntu/.nix-profile/bin/ nixos-facter > facter.json 
-sudo env PATH=$PATH:/home/ubuntu/.nix-profile/bin/ nix run 'github:nix-community/disko/latest#disko-install' -- --flake .#default --disk main /dev/sda

@@ -1,4 +1,4 @@
-scp *.nix "$1:/home/ubuntu/"
-scp *.json "$1:/home/ubuntu/"
-scp *.lock "$1:/home/ubuntu/"
-scp *.sh "$1:/home/ubuntu/"
+scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null *.nix "$1:/home/ubuntu/"
+scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null *.json "$1:/home/ubuntu/"
+scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null *.lock "$1:/home/ubuntu/"
+scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null *.sh "$1:/home/ubuntu/"
