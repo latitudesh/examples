@@ -6,15 +6,20 @@
   boot.loader.grub.default = "0";
   boot.loader.timeout = 0;
   boot.loader.grub.splashImage = null;
-  boot.loader.grub.efiSupport = false;
-  boot.loader.grub.efiInstallAsRemovable = false;
+  boot.loader.grub.efiSupport = true;
+  boot.loader.grub.efiInstallAsRemovable = true;
   boot.loader.grub.enable = true;
   # no need to set devices, disko will add all devices that have a EF02 partition to the list already
   # use `mirroredBoots` for RAID-1
   # next to be empty for non RAID-1, disko sets proper value
   # boot.loader.grub.device(s)
   boot.loader.systemd-boot.enable = false;
+  /* 
+  LatSh Ubuntu not EFI, so no modification.
+  And boot.loader.efi.efiSysMountPoint is not relevant too
+   */
   boot.loader.efi.canTouchEfiVariables = false;
+  
 
   services.cloud-init = {
     # allow cloud-init hacks, so not ideal

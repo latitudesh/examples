@@ -20,6 +20,18 @@
               size = "1M";
               # for grub MBR
               type = "EF02";
+              priority = 1; # as they say needs to be first partition
+            };
+            ESP = {
+              name = "ESP";
+              size = "512M";
+              type = "EF00";
+              content = {
+                type = "filesystem";
+                format = "vfat";
+                mountpoint = "/boot";
+                mountOptions = [ "umask=0077" ];
+              };
             };
             root = {
               name = "root";

@@ -40,6 +40,9 @@ resource "latitudesh_project" "project" {
   name              = var.LATITUDESH_PROJECT_NAME
   environment       = "Development"
   provisioning_type = "on_demand"
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "latitudesh_ssh_key" "ubuntu" {
@@ -65,13 +68,9 @@ data "local_file" "nixosify-sh" {
   filename = "${path.module}/nixosify.sh"
 }
 
-data "local_file" "disko-install" {
-  filename = "${path.module}/disko-install"
+data "local_file" "disko-install-sh" {
+  filename = "${path.module}/disko-install.sh"
 }
-
-
-
-
 
 resource "latitudesh_server" "ubuntu" {
   raid             = "raid-1"
@@ -86,34 +85,34 @@ resource "latitudesh_server" "ubuntu" {
   user_data        = latitudesh_user_data.init.id
 }
 
-resource "ssh_resource" "nixify" {
-  when  = "create"
-  host  = latitudesh_server.ubuntu.primary_ipv4
-  user  = "ubuntu"
-  agent = true
+# resource "ssh_resource" "nixify" {
+#   when  = "create"
+#   host  = latitudesh_server.ubuntu.primary_ipv4
+#   user  = "ubuntu"
+#   agent = true
 
-  file {
-    content     = data.local_file.nixify-sh.content
-    destination = "/home/ubuntu/nixify.sh"
-    permissions = "0700"
-  }
+#   file {
+#     content     = data.local_file.nixify-sh.content
+#     destination = "/home/ubuntu/nixify.sh"
+#     permissions = "0700"
+#   }
 
-  file {
-    content     = data.local_file.disko-install.content
-    destination = "/home/ubuntu/disko-install"
-    permissions = "0700"
-  }
+#   file {
+#     content     = data.local_file.disko-install-sh.content
+#     destination = "/home/ubuntu/disko-install.sh"
+#     permissions = "0700"
+#   }
 
-  commands = [
-    "/home/ubuntu/nixify.sh"
-  ]
+#   commands = [
+#     "/home/ubuntu/nixify.sh"
+#   ]
 
 
-  provisioner "local-exec" {
-    when    = create
-    command = "./copy-config.sh ubuntu@${latitudesh_server.ubuntu.primary_ipv4}"
-  }
-}
+#   provisioner "local-exec" {
+#     when    = create
+#     command = "./copy-config.sh ubuntu@${latitudesh_server.ubuntu.primary_ipv4}"
+#   }
+# }
 
 # resource "ssh_resource" "nixosify" {
 #   depends_on = [ ssh_resource.nixify ]
@@ -135,3 +134,5 @@ resource "ssh_resource" "nixify" {
 output "ssh_connection" {
   value = "ssh ubuntu@${latitudesh_server.ubuntu.primary_ipv4}"
 }
+
+

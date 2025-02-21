@@ -1,0 +1,1 @@
+nix run github:nix-community/nixos-anywhere -- --flake .#default --generate-hardware-config nixos-facter facter.json --target-host ubuntu@103.14.27.239 -i ~/.ssh/id_ed25519

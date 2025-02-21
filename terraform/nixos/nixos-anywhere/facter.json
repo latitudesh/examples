@@ -643,18 +643,23 @@
           "name": "Disk",
           "value": 0
         },
+        "vendor": {
+          "hex": "0000",
+          "name": "Samsung",
+          "value": 0
+        },
         "device": {
           "hex": "0000",
-          "name": "Micron_5300_MTFD",
+          "name": "SSD 860",
           "value": 0
         },
         "revision": {
           "hex": "0000",
-          "name": "U001",
+          "name": "3B6Q",
           "value": 0
         },
-        "serial": "220233EC9215",
-        "model": "Micron_5300_MTFD",
+        "serial": "S4X9NE0M706333X",
+        "model": "Samsung SSD 860",
         "sysfs_id": "/class/block/sda",
         "sysfs_bus_id": "3:0:0:0",
         "sysfs_device_link": "/devices/pci0000:00/0000:00:17.0/ata4/host3/target3:0:0/3:0:0:0",
@@ -666,9 +671,9 @@
           "range": 16
         },
         "unix_device_names": [
-          "/dev/disk/by-diskseq/9",
-          "/dev/disk/by-id/ata-Micron_5300_MTFDDAK480TDS_220233EC9215",
-          "/dev/disk/by-id/wwn-0x500a075133ec9215",
+          "/dev/disk/by-diskseq/10",
+          "/dev/disk/by-id/ata-Samsung_SSD_860_EVO_500GB_S4X9NE0M706333X",
+          "/dev/disk/by-id/wwn-0x5002538e0974a6b2",
           "/dev/disk/by-path/pci-0000:00:17.0-ata-4",
           "/dev/disk/by-path/pci-0000:00:17.0-ata-4.0",
           "/dev/sda"
@@ -677,7 +682,7 @@
         "resources": [
           {
             "type": "disk_geo",
-            "cylinders": 58369,
+            "cylinders": 60801,
             "heads": 255,
             "sectors": 63,
             "size": 0,
@@ -686,7 +691,7 @@
           {
             "type": "size",
             "unit": "sectors",
-            "value_1": 937703088,
+            "value_1": 976773168,
             "value_2": 512
           }
         ],
@@ -1204,7 +1209,7 @@
           {
             "type": "mem",
             "base": 0,
-            "range": 33554952192,
+            "range": 33554956288,
             "enabled": true,
             "access": "read_write",
             "prefetch": "unknown"
@@ -1581,6 +1586,48 @@
     "network_interface": [
       {
         "index": 46,
+        "attached_to": 25,
+        "class_list": [
+          "network_interface"
+        ],
+        "base_class": {
+          "hex": "0107",
+          "name": "Network Interface",
+          "value": 263
+        },
+        "sub_class": {
+          "hex": "0001",
+          "name": "Ethernet",
+          "value": 1
+        },
+        "model": "Ethernet network interface",
+        "sysfs_id": "/class/net/enp1s0f0",
+        "sysfs_device_link": "/devices/pci0000:00/0000:00:01.0/0000:01:00.0",
+        "unix_device_name": "enp1s0f0",
+        "unix_device_names": [
+          "enp1s0f0"
+        ],
+        "resources": [
+          {
+            "type": "hwaddr",
+            "address": 51
+          },
+          {
+            "type": "phwaddr",
+            "address": 51
+          }
+        ],
+        "driver": "igb",
+        "driver_module": "igb",
+        "drivers": [
+          "igb"
+        ],
+        "driver_modules": [
+          "igb"
+        ]
+      },
+      {
+        "index": 47,
         "attached_to": 33,
         "class_list": [
           "network_interface"
@@ -1622,7 +1669,7 @@
         ]
       },
       {
-        "index": 47,
+        "index": 48,
         "attached_to": 0,
         "class_list": [
           "network_interface"
@@ -1642,48 +1689,6 @@
         "unix_device_name": "lo",
         "unix_device_names": [
           "lo"
-        ]
-      },
-      {
-        "index": 48,
-        "attached_to": 25,
-        "class_list": [
-          "network_interface"
-        ],
-        "base_class": {
-          "hex": "0107",
-          "name": "Network Interface",
-          "value": 263
-        },
-        "sub_class": {
-          "hex": "0001",
-          "name": "Ethernet",
-          "value": 1
-        },
-        "model": "Ethernet network interface",
-        "sysfs_id": "/class/net/enp1s0f0",
-        "sysfs_device_link": "/devices/pci0000:00/0000:00:01.0/0000:01:00.0",
-        "unix_device_name": "enp1s0f0",
-        "unix_device_names": [
-          "enp1s0f0"
-        ],
-        "resources": [
-          {
-            "type": "hwaddr",
-            "address": 51
-          },
-          {
-            "type": "phwaddr",
-            "address": 51
-          }
-        ],
-        "driver": "igb",
-        "driver_module": "igb",
-        "drivers": [
-          "igb"
-        ],
-        "driver_modules": [
-          "igb"
         ]
       }
     ],
@@ -2890,8 +2895,8 @@
     "bios": {
       "handle": 0,
       "vendor": "American Megatrends Inc.",
-      "version": "1.7",
-      "date": "12/02/2021",
+      "version": "2.1",
+      "date": "07/12/2023",
       "features": [
         "PCI supported",
         "BIOS flashable",

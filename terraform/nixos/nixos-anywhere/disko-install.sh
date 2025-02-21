@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+set -exuo pipefail
 
 showUsage() {
   cat <<EOF
@@ -261,7 +261,7 @@ main() {
     NIX_STATE_DIR=${mountPoint}/nix/var/nix nix-store --load-db < "${closure_info}/registration"
   fi
 
-  env PATH="$PATH:/home/ubuntu/.nix-profile/bin/:" nixos-install --no-channel-copy --no-root-password --system "$nixos_system" --root "$mountPoint"
+  env PATH="$PATH" nixos-install --no-channel-copy --no-root-password --system "$nixos_system" --root "$mountPoint"
 }
 
 if main "$@"; then

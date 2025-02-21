@@ -1,104 +1,40 @@
-
-# resource "null_resource" "nixos" {
-#   depends_on = [ latitudesh_server.ubuntu ]
-#   provisioner "local-exec" {
-#     command = "
-
-# shift
-# + shift
-# + [ 0 -gt 0 ]
-# + init=/nix/store/4g9j050k7pnbb2n43dssv6sndfarl81n-nixos-system-nixos-installer-24.11pre-git/init
-# + kernelParams=nouveau.modeset=0 console=tty0 console=ttyS0,115200 root=fstab loglevel=4
-# + readlink -f /root/kexec/kexec/run
-# console=ttyS0
-# Pseudo-terminal will not be allocated because stdin is not a terminal.
-#nix run github:nix-community/nixos-anywhere -- --flake .#default --generate-hardware-config nixos-facter facter.json --target-host ubuntu@103.88.232.173 -i ~/.ssh/id_ed25519
-# --vm-test
+1. try IPXE ?
+2. try IPXE locally?
+3. try locally Ubuntu upgrade
 
 
-curl --request GET \
-     --url https://api.latitude.sh/servers/server_id \
-     --header 'Authorization: asdsadasdad' \
-     --header 'accept: application/vnd.api+json'
 
-curl --request POST \
-     --url https://api.latitude.sh/servers/$SERVER_ID/actions \
-     --header "Authorization: $TF_VAR_LATITUDESH_AUTH_TOKEN" \
-     --header 'accept: application/vnd.api+json' \
-     --header 'content-type: application/vnd.api+json' \
-     --data '
-{
-  "data": {
-    "type": "actions",
-    "attributes": {
-      "action": "reboot"
-    }
-  }
+configuration.nix  hardware-configuration.nix
+ubuntu@c2-small-x86-SAO2-nixos:~$ ls /etc/nixos/^C
+ubuntu@c2-small-x86-SAO2-nixos:~$ cat /etc/nixos/configuration.nix 
+{ ... }: {
+  imports = [
+    ./hardware-configuration.nix
+    
+    
+  ];
+
+  boot.tmp.cleanOnBoot = true;
+  zramSwap.enable = true;
+  networking.hostName = "c2-small-x86-SAO2-nixos";
+  networking.domain = "maas";
+  services.openssh.enable = true;
+  users.users.root.openssh.authorizedKeys.keys = [''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO/PGg+j/Y5gP/e7zyMCyK+f0YfImZgKZ3IUUWmkoGtT dzmitry@nullsoft.xyz'' ];
+  system.stateVersion = "23.11";
 }
-'
-# enp1s0f0
-
-modeset=0 console=tty0 console=ttyS0,115200 root=fstab loglevel=4'
-
-# network:
-#   network:
-#     version: 2
-#     ethernets:
-#       enp1s0f0:
-#         dhcp4: no
-#         addresses: [$PUBLIC_IP]
-#         gateway4: $PUBLIC_GATEWAY
-
-# networking.defaultGateway = {
-#   address = "103.14.27.184";
-#   interface = "enp1s0f0";
-# };
-# networking.interfaces = {
-#   enp1s0f0 = {
-#     enable = true;
-#     dhcp4 = false;
-#     # ipv4 = {
-#     #   addresses = [
-#     #     {
-#     #       address = "103.14.27.107";
-#     #       prefixLength = 31;
-#     #     }
-#     #   ];
-#     # };
-#   };
-# };
-#     config =
-#     {
-#       # assertions = [
-#       #   {
-#       #     assertion = config.systemd.network.networks."10-uplink".networkConfig ? Address;
-#       #     message = ''
-#       #       The machine IPv6 address must be set to
-#       #       `systemd.network.networks."10-uplink".networkConfig.Address`
-#       #     '';
-#       #   }
-#       # ];
-#       # systemd.network.networks."10-uplink" = {
-#       #   matchConfig.Name = lib.mkDefault "en* enp1s0f0";
-#       #   networkConfig.DHCP = "ipv4";
-#       #   # hetzner requires static ipv6 addresses
-#       #   networkConfig.Gateway = "fe80::1";
-#       #   networkConfig.IPv6AcceptRA = "no";
-#       # };
-
-#       # This option defaults to `networking.useDHCP` which we don't enable
-#       # however we do use DHCPv4 as part of `10-uplink`, so we want to
-#       # enable this for legacy stage1 users.
-#       boot.initrd.network.udhcpc.enable = lib.mkIf (!config.boot.initrd.systemd.enable) true;
-
-#       # Network configuration i.e. when we unlock machines with openssh in the initrd
-#       boot.initrd.systemd.network.networks."10-uplink" = config.systemd.network.networks."10-uplink";
-#       boot.kernelModules = [ "kvm-intel" ];
-#       hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-#     }
-#     // (lib.optionalAttrs ((options.srvos.boot or { }) ? consoles) {
-
-#       # To make hetzner kvm console work. It uses VGA rather than serial. Serial leads to nowhere.
-#       srvos.boot.consoles = lib.mkDefault [ ];
-#     });
-# }
+ubuntu@c2-small-x86-SAO2-nixos:~$ cat /etc/nixos/hardware-configuration.nix 
+{ modulesPath, ... }:
+{
+  imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
+  boot.loader.grub.device = "/dev/sda";
+  boot.initrd.availableKernelModules = [ "ata_piix" "uhci_hcd" "xen_blkfront" "vmw_pvscsi" ];
+  boot.initrd.kernelModules = [ "nvme" ];
+  fileSystems."/" = { device = "/dev/sda2"; fsType = "ext4"; };
+  
+}
+ubuntu@c2-small-x86-SAO2-nixos:~$ lsblk 
+NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+sda      8:0    0 447.1G  0 disk 
+├─sda1   8:1    0     1M  0 part 
+└─sda2   8:2    0 447.1G  0 part /
+ubuntu@c2-small-x86-SAO2-nixos:~$ 
