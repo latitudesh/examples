@@ -1,0 +1,37 @@
+---
+#cloud-config
+
+runcmd:
+  - |
+    set -eux
+
+    # Unmount /home if it's using the array
+    mountpoint -q /home && umount -l /home || true
+    sed -i '/\/home/d' /etc/fstab || true
+
+    # Stop and remove existing RAID device if present
+    mdadm --stop /dev/md1 || true
+    mdadm --remove /dev/md1 || true
+
+    # Wipe existing metadata from RAID disks
+    wipefs -a ${DISK_1} || true
+    wipefs -a ${DISK_2} || true
+    
+    sleep 3
+
+    # Create new RAID array with provided level
+    mdadm --create --run --verbose /dev/md1 --level=${RAID_LEVEL} --raid-devices=2 ${DISK_1} ${DISK_2}
+
+    # Persist RAID configuration
+    echo "DEVICE ${DISK_1} ${DISK_2}" > /etc/mdadm/mdadm.conf
+    mdadm --detail --scan >> /etc/mdadm/mdadm.conf
+
+    # Format the new array with XFS + project quota
+    mkfs.xfs -f -m reflink=1 -n ftype=1 /dev/md1
+
+    # Mount it to the new location
+    mkdir -p ${MOUNT_POINT}
+    echo '/dev/md1 ${MOUNT_POINT} xfs defaults,pquota 0 0' >> /etc/fstab
+    mount -a
+
+final_message: "Cloud-init completed and RAID is mounted on ${MOUNT_POINT}."
