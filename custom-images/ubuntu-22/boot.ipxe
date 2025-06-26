@@ -6,7 +6,7 @@ set net{{ INTERFACE_ID }}/netmask {{ NETMASK }}
 set net{{ INTERFACE_ID }}/gateway {{ PUBLIC_GW }}
 set net{{ INTERFACE_ID }}/dns 8.8.8.8
 
-kernel https://github.com/latitudesh/examples/releases/download/us_22.04_amd64/vmlinuz initrd=initrd  url=http://releases.ubuntu.com/jammy/ubuntu-22.04.4-live-server-amd64.iso net.ifnames=0 biosdevname=0 ip={{ PUBLIC_IP }}::{{ PUBLIC_GW }}:{{ NETMASK }}::eth{{ INTERFACE_ID }}:off:8.8.8.8:1.1.1.1
+kernel https://github.com/latitudesh/examples/releases/download/us_22.04_amd64/vmlinuz initrd=initrd  url=http://releases.ubuntu.com/jammy/ubuntu-22.04.5-live-server-amd64.iso net.ifnames=0 biosdevname=0 ip={{ PUBLIC_IP }}::{{ PUBLIC_GW }}:{{ NETMASK }}::eth{{ INTERFACE_ID }}:off:8.8.8.8:1.1.1.1
 initrd https://github.com/latitudesh/examples/releases/download/us_22.04_amd64/initrd
 
 boot
