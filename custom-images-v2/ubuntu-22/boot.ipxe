@@ -1,7 +1,7 @@
 #!ipxe
 
-kernel https://github.com/latitudesh/examples/releases/download/us_22.04_amd64/vmlinuz  initrd=initrd  url=http://releases.ubuntu.com/jammy/ubuntu-22.04.5-live-server-amd64.iso net.ifnames=0 biosdevname=0 ip=dhcp
+kernel https://github.com/latitudesh/examples/releases/download/us_22.04_amd64/vmlinuz  initrd=initrd  url=http://releases.ubuntu.com/jammy/ubuntu-22.04.5-live-server-amd64.iso net.ifnames=0 biosdevname=0 ip=dhcp modprobe.blacklist=rndis_host
 
-initrd https://github.com/latitudesh/examples/releases/download/us_22.04_amd64/initrd 
+initrd https://github.com/latitudesh/examples/releases/download/us_22.04_amd64/initrd
 
 boot
