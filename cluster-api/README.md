@@ -1,5 +1,9 @@
 # Cluster API - Latitude.sh
 
+## Disclaimer
+
+This project is a work in progress and is not yet ready for production use. The project is currently in alpha and is not recommended for production use.
+
 ## Prerequisites
 
 - [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) installed
