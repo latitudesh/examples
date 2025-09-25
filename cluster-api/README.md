@@ -6,7 +6,9 @@ This project is a work in progress and is not yet ready for production use. The 
 
 ## Prerequisites
 
-- [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) installed
+- [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) installed
+- [docker](https://docs.docker.com/get-docker/) installed
+- [kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation) installed
 - [Cluster API provider for Latitude.sh](https://github.com/latitudesh/cluster-api-provider-latitudesh) installed
 
 ## Getting Started
