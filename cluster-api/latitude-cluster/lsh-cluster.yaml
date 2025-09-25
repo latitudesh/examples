@@ -1,0 +1,59 @@
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: LatitudeCluster
+metadata:
+  name: "<CLUSTER_NAME>"
+  namespace: default
+spec:
+  location: "<LOCATION>"
+  projectRef:
+    projectID: "<PROJECT_ID>"
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: LatitudeMachineTemplate
+metadata:
+  name: "<MACHINE_TEMPLATE_NAME>"
+  namespace: default
+spec:
+  template:
+    spec:
+      projectID: "<PROJECT_ID>"
+      site: "<LOCATION>"
+      plan: "<PLAN>"
+      operatingSystem: "<OPERATING_SYSTEM>"
+      sshKeys:
+      - "<SSH_KEY_ID>"
+---
+apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+kind: KubeadmControlPlane
+metadata:
+  name: "<CONTROL_PLANE_NAME>"
+  namespace: default
+spec:
+  replicas: 1
+  version: v1.30.0
+  machineTemplate:
+    infrastructureRef:
+      apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+      kind: LatitudeMachineTemplate
+      name: "<MACHINE_TEMPLATE_NAME>"
+  kubeadmConfigSpec:
+    clusterConfiguration:
+      controllerManager: {}
+      scheduler: {}
+    initConfiguration: {}
+    joinConfiguration: {}
+---
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+metadata:
+  name: "<CLUSTER_NAME>"
+  namespace: default
+spec:
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+    kind: LatitudeCluster
+    name: "<CLUSTER_NAME>"
+  controlPlaneRef:
+    apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+    kind: KubeadmControlPlane
+    name: "<CONTROL_PLANE_NAME>"
