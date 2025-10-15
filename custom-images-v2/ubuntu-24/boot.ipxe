@@ -1,6 +1,6 @@
 #!ipxe
 
-kernel https://github.com/latitudesh/examples/releases/download/us_24.04_amd64/vmlinuz  initrd=initrd  url=https://releases.ubuntu.com/noble/ubuntu-24.04.2-live-server-amd64.iso net.ifnames=0 biosdevname=0 ip=dhcp modprobe.blacklist=rndis_host
-initrd https://github.com/latitudesh/examples/releases/download/us_24.04_amd64/initrd
+kernel https://bucket.latitude.sh/noble-iso-vmlinuz  initrd=initrd  url=https://bucket.latitude.sh/ubuntu-24.04.2-live-server-amd64.iso net.ifnames=0 biosdevname=0 ip=dhcp modprobe.blacklist=rndis_host ipv6.disable=1
+initrd https://bucket.latitude.sh/noble-iso-initrd
 
 boot
