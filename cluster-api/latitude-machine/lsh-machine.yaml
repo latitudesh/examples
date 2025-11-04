@@ -1,0 +1,39 @@
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+kind: LatitudeMachine
+metadata:
+  name: "<MACHINE_NAME>"
+  namespace: default
+spec:
+  projectID: "<PROJECT_ID>"
+  site: "<LOCATION>"
+  plan: "<PLAN>"
+  operatingSystem: "ubuntu_24_04_x64_lts"
+  sshKeys: ["<SSH_KEY_ID>"]
+---
+apiVersion: bootstrap.cluster.x-k8s.io/v1beta2
+kind: KubeadmConfig
+metadata:
+  name: "<KUBEADM_CONFIG_NAME>"
+  namespace: default
+spec:
+  joinConfiguration:
+    nodeRegistration:
+      name: "{{ ds.meta_data.hostname }}"
+---
+apiVersion: cluster.x-k8s.io/v1beta2
+kind: Machine
+metadata:
+  name: "<MACHINE_NAME>"
+  namespace: default
+spec:
+  clusterName: "<CLUSTER_NAME>"
+  version: v1.30.0
+  bootstrap:
+    configRef:
+      apiGroup: bootstrap.cluster.x-k8s.io
+      kind: KubeadmConfig
+      name: "<KUBEADM_CONFIG_NAME>"
+  infrastructureRef:
+    apiGroup: infrastructure.cluster.x-k8s.io
+    kind: LatitudeMachine
+    name: "<MACHINE_NAME>"
