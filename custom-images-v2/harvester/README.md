@@ -107,9 +107,12 @@ os:
   hostname: {{HOSTNAME}}       # Set a hostname. This can be omitted if DHCP server offers hostnames.
   ssh_authorized_keys:
   - {{SSH_PUBLIC_KEY}}
+
   password: {{ENCRYPTED_PASSWORD}}
+  ntp_servers:
   - 0.suse.pool.ntp.org
   - 1.suse.pool.ntp.org
+
   dns_nameservers:
     - 8.8.8.8
     - 1.1.1.1
