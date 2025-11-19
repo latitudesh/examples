@@ -1,42 +1,56 @@
-This repository indicates the Harvester installation steps in an automated way, replacing all placeholders correctly this script will deliver the Harvester ready for operation.
+# Harvester Installation via iPXE
 
-# Intro
+This repository provides the steps for deploying Harvester using iPXE boot with optional automated installation capabilities.
 
-Harvester is a modern hyper-converged infrastructure (HCI) solution built for bare metal servers using enterprise-grade open-source technologies including Linux, KVM, Kubernetes, KubeVirt, and Longhorn. Designed for users looking for a flexible and affordable solution to run cloud-native and virtual machine (VM) workloads in your data center and at the edge, Harvester provides a single glass for virtualization and cloud-native workload management.
+## Intro
 
-Harvester operates on Kubevirt, Longhorn, and RKE2. RKE2 provides an orchestration infrastructure layer, while Kubevirt offers pods with virtualization capabilities. This allows for advanced features virtual machines need, such as running their kernel. Longhorn is a block storage manager, that delivers hard disks for virtual machines.
+Harvester is a modern hyper-converged infrastructure (HCI) solution built for bare metal servers using enterprise-grade open-source technologies including Linux, KVM, Kubernetes, KubeVirt, and Longhorn. Designed for users looking for a flexible and affordable solution to run cloud-native and virtual machine (VM) workloads in your data center and at the edge, Harvester provides a single pane of glass for virtualization and cloud-native workload management.
 
-# Installation
+Harvester operates on Kubevirt, Longhorn, and RKE2. RKE2 provides an orchestration infrastructure layer, while Kubevirt offers pods with virtualization capabilities. This allows for advanced features virtual machines need, such as running their own kernel. Longhorn is a block storage manager that delivers persistent storage for virtual machines.
 
-> All files used for deployment must be publicly available at the moment of deployment.
+## Installation
 
-## iPXE Script
+### Basic iPXE Script (Interactive Installation)
 
-The iPXE script [boot.ipxe](https://github.com/latitudesh/examples/blob/main/custom-image-harvester/boot.ipxe) used to harvester automatic install is shown below:
-
+The basic iPXE script boots into Harvester's interactive installer where you can configure settings manually through the console:
 ```bash
 #!ipxe
 
 dhcp
 
-
-kernel https://releases.rancher.com/harvester/master/harvester-master-vmlinuz-amd64 ip=dhcp rd.cos.disable rd.noverifyssl net.ifnames=1 root=live:https://releases.rancher.com/harvester/master/harvester-master-rootfs-amd64.squashfs console=ttyS1,115200n8 harvester.install.automatic=true harvester.install.skipchecks=true harvester.install.config_url={{HARVESTER-CONFIG-FILE}}
+kernel https://releases.rancher.com/harvester/master/harvester-master-vmlinuz-amd64 ip=dhcp net.ifnames=1 \
+  root=live:https://releases.rancher.com/harvester/master/harvester-master-rootfs-amd64.squashfs \
+  console=tty1 console=ttyS1,115200n8 \
+  harvester.install.skipchecks=true \
+  harvester.install.tty=tty1
 initrd https://releases.rancher.com/harvester/master/harvester-master-initrd-amd64
 boot
-
 ```
 
-The place holder {{HARVESTER-CONFIG-FILE}} must be replaced by url of the config HARVESTER-CONFIG-FILE.yaml
+### Automated Installation (Optional)
 
-Special attention to the following parameters:
+For fully automated deployments, you can add a configuration file URL to the iPXE script:
+```bash
+#!ipxe
 
-> harvester.install.config_url={{HARVESTER-CONFIG-FILE}}
+dhcp
 
-This parameter points to the configuration file that determines how the installation will be performed. This will be detailed in the next session.
+kernel https://releases.rancher.com/harvester/master/harvester-master-vmlinuz-amd64 ip=dhcp net.ifnames=1 \
+  root=live:https://releases.rancher.com/harvester/master/harvester-master-rootfs-amd64.squashfs \
+  console=tty1 console=ttyS1,115200n8 \
+  harvester.install.automatic=true \
+  harvester.install.skipchecks=true \
+  harvester.install.config_url={{HARVESTER-CONFIG-FILE-URL}}
+initrd https://releases.rancher.com/harvester/master/harvester-master-initrd-amd64
+boot
+```
 
-> console=ttyS1,115200n8
+**Additional parameters for automation:**
 
-This parameter should be used to make the harvester installer use the serial console, this option allows [out-of-band](https://www.latitude.sh/docs/servers/out-of-band) to be used to monitor the installation.
+- `harvester.install.automatic=true` - Enables automatic installation mode
+- `harvester.install.config_url={{HARVESTER-CONFIG-FILE-URL}}` - URL to your Harvester configuration file (must be publicly accessible)
+
+> **Note:** The configuration file must be hosted on a publicly accessible HTTP/HTTPS server at the time of deployment.
 
 ## Harvester Config Files
 
