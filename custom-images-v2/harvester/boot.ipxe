@@ -1,0 +1,11 @@
+#!ipxe
+
+dhcp
+
+kernel https://releases.rancher.com/harvester/master/harvester-master-vmlinuz-amd64 ip=dhcp net.ifnames=1 \
+  root=live:https://releases.rancher.com/harvester/master/harvester-master-rootfs-amd64.squashfs \
+  console=tty1 console=ttyS1,115200n8 \
+  harvester.install.skipchecks=true \
+  harvester.install.tty=tty1
+initrd https://releases.rancher.com/harvester/master/harvester-master-initrd-amd64
+boot
