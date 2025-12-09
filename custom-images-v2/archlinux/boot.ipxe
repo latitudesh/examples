@@ -1,0 +1,16 @@
+#!ipxe
+dhcp
+
+set mirror http://mirror.rackspace.com/archlinux
+set version latest
+set base_url ${mirror}/iso/${version}/arch/boot/x86_64
+
+set params initrd=initramfs-linux.img archiso_http_srv=${mirror}/iso/${version}/ archisobasedir=arch ip=dhcp
+echo Booting Arch Linux ${version}...
+kernel ${base_url}/vmlinuz-linux ${params} || goto failed
+initrd ${base_url}/initramfs-linux.img || goto failed
+boot
+
+:failed
+echo Boot failed, dropping to shell
+shell
