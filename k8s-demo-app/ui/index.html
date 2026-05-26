@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>latitude.sh — bare-metal LLM chat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/chat.css">
+<script src="/marked.min.js" defer></script>
+<script src="/purify.min.js" defer></script>
+
+<dialog id="api-modal" class="modal" aria-labelledby="api-title">
+  <div class="modal-card">
+    <header class="modal-head">
+      <div>
+        <p class="modal-kicker"><span class="kicker-dot"></span>http api</p>
+        <h2 id="api-title" class="modal-title">Endpoints</h2>
+      </div>
+      <button id="api-close" class="ghost" type="button" aria-label="Close">close</button>
+    </header>
+
+    <div class="modal-body">
+      <p class="modal-lead">
+        The FastAPI orchestrator exposes an OpenAI-flavored streaming API. The base URL is the chat
+        host (this page); paths are under <code class="kbd">/api/*</code>.
+        Session IDs live in the browser only — the backend never lists them.
+      </p>
+
+      <aside class="session-card">
+        <p class="session-label">your session</p>
+        <div class="session-row">
+          <code id="session-id" class="session-id">—</code>
+          <button id="session-copy" class="copy" type="button">copy</button>
+        </div>
+        <p class="session-hint">
+          Stored in <code class="kbd">localStorage["k8s-demo-app:session_id"]</code>. Examples
+          below already point at it. Click <em>reset</em> in the header to wipe history (the ID stays).
+        </p>
+      </aside>
+
+      <section class="ep">
+        <h3 class="ep-name"><span class="verb get">GET</span><code>/api/models</code></h3>
+        <p class="ep-desc">List available models and the default.</p>
+        <pre class="snippet" data-lang="curl"><code>curl ${BASE}/api/models</code></pre>
+      </section>
+
+      <section class="ep">
+        <h3 class="ep-name"><span class="verb post">POST</span><code>/api/chat?session_id=&amp;model=</code></h3>
+        <p class="ep-desc">
+          Streaming chat completion. Returns <code class="kbd">text/event-stream</code> with
+          <code class="kbd">delta</code> frames per token and a closing <code class="kbd">[DONE]</code>.
+          <code class="kbd">model</code> defaults to <code class="kbd">qwen</code>.
+        </p>
+        <pre class="snippet" data-lang="curl"><code>curl -N ${BASE}/api/chat?session_id=${SESSION}&amp;model=qwen \
+  -H 'Content-Type: application/json' \
+  -d '{"message":"hello in 3 words"}'</code></pre>
+        <pre class="snippet" data-lang="event"><code>data: {"event": "meta", "model": "qwen", "session_id": "${SESSION}"}
+data: {"event": "delta", "content": "Hi"}
+data: {"event": "delta", "content": " there"}
+data: [DONE]</code></pre>
+        <pre class="snippet" data-lang="python"><code>import httpx, json
+with httpx.stream("POST", "${BASE}/api/chat",
+    params={"session_id": "demo", "model": "qwen"},
+    json={"message": "list 3 K8s benefits"},
+    timeout=120,
+) as r:
+    for line in r.iter_lines():
+        if not line.startswith("data: "): continue
+        payload = line[6:]
+        if payload == "[DONE]": break
+        obj = json.loads(payload)
+        if obj.get("event") == "delta":
+            print(obj["content"], end="", flush=True)</code></pre>
+      </section>
+
+      <section class="ep">
+        <h3 class="ep-name"><span class="verb get">GET</span><code>/api/history?session_id=</code></h3>
+        <p class="ep-desc">Full conversation history for a session (Redis, 24 h TTL).</p>
+        <pre class="snippet" data-lang="curl"><code>curl ${BASE}/api/history?session_id=${SESSION}</code></pre>
+      </section>
+
+      <section class="ep">
+        <h3 class="ep-name"><span class="verb get">GET</span><code>/api/sessions</code></h3>
+        <p class="ep-desc">
+          List every active session in Redis (id + turn count + TTL).
+          Inspection-only — no auth, intentional for the demo. In production this would be admin-gated.
+        </p>
+        <pre class="snippet" data-lang="curl"><code>curl ${BASE}/api/sessions | python3 -m json.tool</code></pre>
+      </section>
+
+      <section class="ep">
+        <h3 class="ep-name"><span class="verb post">POST</span><code>/api/reset?session_id=</code></h3>
+        <p class="ep-desc">Clear history for a session.</p>
+        <pre class="snippet" data-lang="curl"><code>curl -X POST ${BASE}/api/reset?session_id=${SESSION}</code></pre>
+      </section>
+
+      <section class="ep">
+        <h3 class="ep-name"><span class="verb get">GET</span><code>/api/host-info</code></h3>
+        <p class="ep-desc">CPU model + inference target. Read from <code class="kbd">/proc/cpuinfo</code> at request time.</p>
+        <pre class="snippet" data-lang="curl"><code>curl ${BASE}/api/host-info</code></pre>
+      </section>
+
+      <section class="ep">
+        <h3 class="ep-name"><span class="verb get">GET</span><code>/api/health</code></h3>
+        <p class="ep-desc">Liveness + Redis reachability.</p>
+        <pre class="snippet" data-lang="curl"><code>curl ${BASE}/api/health</code></pre>
+      </section>
+    </div>
+  </div>
+</dialog>
+</head>
+<body>
+
+<header class="bar">
+  <a class="brand" href="/" aria-label="latitude.sh">
+    <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 586.34 108" aria-hidden="true">
+      <g><g>
+        <path d="M128.1,86.56V11.78h-11.64v74.78h11.64Z"/>
+        <path d="M161.01,87.84c6.09,0,12.93-2.99,16.02-8.01v6.73h11.54v-49.78h-11.54v6.73c-3.1-5.02-9.08-8.01-15.7-8.01-15.49,0-24.78,11.54-24.78,26.17s8.44,26.17,24.46,26.17ZM162.72,77.48c-9.08,0-14.53-6.73-14.53-15.81s5.45-15.81,14.53-15.81c9.93,0,14.74,7.26,14.74,15.81s-4.81,15.81-14.74,15.81Z"/>
+        <path d="M223.27,76.73c-4.59,0-7.26-1.07-7.26-9.72v-20.51h11.43v-9.72h-11.43v-15.06h-11.64v15.06h-8.44v9.72h8.44v23.18c0,16.77,10.47,17.52,16.13,17.52,3.42,0,6.84-.32,8.65-.64v-10.26c-1.18.21-4.06.43-5.87.43Z"/>
+        <path d="M242.84,29.62c5.13,0,8.65-3.85,8.65-8.65s-3.52-8.65-8.65-8.65-8.65,3.85-8.65,8.65,3.53,8.65,8.65,8.65ZM248.61,86.56v-49.78h-11.54v49.78h11.54Z"/>
+        <path d="M283.33,76.73c-4.59,0-7.26-1.07-7.26-9.72v-20.51h11.43v-9.72h-11.43v-15.06h-11.64v15.06h-8.44v9.72h8.44v23.18c0,16.77,10.47,17.52,16.13,17.52,3.42,0,6.84-.32,8.65-.64v-10.26c-1.18.21-4.06.43-5.88.43Z"/>
+        <path d="M315.08,87.84c7.16,0,12.39-2.88,15.38-8.23v6.94h11.64v-49.78h-11.64v28.1c0,7.16-3.21,13.03-12.07,13.03-7.59,0-10.15-4.7-10.15-12.71v-28.42h-11.64v31.3c0,13.35,7.58,19.76,18.48,19.76Z"/>
+        <path d="M390.99,43.51c-3.1-5.02-9.08-8.01-15.7-8.01-15.49,0-24.78,11.54-24.78,26.17s8.44,26.17,24.46,26.17c6.09,0,12.93-2.99,16.02-8.01v6.73h11.54V11.78h-11.54v31.73ZM376.67,77.48c-9.08,0-14.53-6.73-14.53-15.81s5.45-15.81,14.53-15.81c9.94,0,14.74,7.26,14.74,15.81s-4.81,15.81-14.74,15.81Z"/>
+        <path d="M459.76,59.1c0-13.99-9.61-23.61-23.82-23.61-15.17,0-25,10.26-25,26.17s9.72,26.17,25.42,26.17c11.97,0,21.37-6.52,22.86-15.81h-11.75c-1.92,3.85-5.34,5.66-11.11,5.66-8.44,0-13.57-4.27-13.89-12.18h36.96c.21-2.78.32-4.38.32-6.41ZM422.48,56.65c.11-7.05,5.02-11.96,13.25-11.96s12.5,4.27,12.61,11.96h-25.85Z"/>
+        <path d="M474.06,87.41c5.02,0,9.08-4.17,9.08-9.08s-4.06-8.97-9.08-8.97-8.97,4.06-8.97,8.97,3.95,9.08,8.97,9.08Z"/>
+        <path d="M511.67,87.84c12.07,0,19.66-5.77,19.66-15.49,0-7.05-4.49-12.18-11.54-14.21l-9.93-2.88c-4.59-1.28-6.2-3.1-6.2-5.77,0-2.99,2.99-5.13,7.16-5.13,5.45,0,8.65,2.46,8.65,6.62h11.43c0-9.61-7.48-15.49-19.66-15.49-11.11,0-19.12,6.2-19.12,14.64,0,7.05,3.95,12.07,10.9,13.99l9.93,2.67c5.34,1.39,6.52,3.1,6.52,5.88,0,3.53-2.78,5.88-7.16,5.88-5.98,0-10.15-2.99-10.15-7.26h-11.64c0,9.51,8.97,16.56,21.15,16.56Z"/>
+        <path d="M568.18,35.49c-7.37,0-13.14,2.88-16.24,8.23V11.78h-11.64v74.78h11.64v-27.35c0-8.76,4.27-13.78,11.86-13.78,8.12,0,10.9,4.59,10.9,15.17v25.96h11.64v-31.3c0-13.03-6.2-19.76-18.16-19.76Z"/>
+        <path d="M85.1,79.24l-8.9,26.53H24.92l8.91-26.53h51.28ZM56.81,0h-31.79L0,74.56h31.79L56.81,0Z"/>
+      </g></g>
+    </svg>
+    <span class="brand-sub">k8s demo</span>
+  </a>
+
+  <div class="models" role="radiogroup" aria-label="model">
+    <span class="seg-label">model</span>
+    <div class="seg">
+      <button class="seg-opt" data-model="qwen" role="radio" aria-checked="true" type="button">
+        <span class="seg-name">qwen3.6</span>
+        <span class="seg-meta">35B · MoE · ~15 tok/s</span>
+      </button>
+      <button class="seg-opt" data-model="hermes" role="radio" aria-checked="false" type="button">
+        <span class="seg-name">hermes 4</span>
+        <span class="seg-meta">14B · dense · ~6 tok/s</span>
+      </button>
+    </div>
+  </div>
+
+  <button id="api-open" class="ghost ghost-icon" type="button" title="HTTP API reference">
+    <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M5.5 4.5L2 8l3.5 3.5M10.5 4.5L14 8l-3.5 3.5"/></svg>
+    <span>API</span>
+  </button>
+  <button id="reset" class="ghost" type="button" title="Clear conversation">reset</button>
+</header>
+
+<main class="canvas">
+  <div class="frame">
+    <div id="thread" class="thread" aria-live="polite">
+      <div id="empty" class="empty">
+        <p class="kicker"><span class="kicker-dot"></span>ready</p>
+        <h1 class="hed">Two open-source LLMs.<br>One bare-metal node.<br>No GPU.</h1>
+        <p class="sub">Type below to chat. Pick a model in the top bar — your choice persists across page reloads. History lives in Redis for 24 hours.</p>
+      </div>
+    </div>
+
+    <form id="composer" class="composer">
+      <input id="msg" type="text" placeholder="Ask anything…" autocomplete="off" autocapitalize="off" spellcheck="false" required>
+      <button type="submit" id="send" class="send">
+        <span>Send</span>
+        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M3.5 8h9M9 4.5l3.5 3.5L9 11.5"/></svg>
+      </button>
+    </form>
+  </div>
+</main>
+
+<footer class="status">
+  <span class="dot-live" aria-hidden="true"></span>
+  <span id="host">running on bare-metal kubernetes · cpu inference · no gpu</span>
+</footer>
+
+<script src="/chat.js" defer></script>
+</body>
+</html>

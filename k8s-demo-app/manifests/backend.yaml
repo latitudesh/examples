@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: ai-demo
+  labels: { app: backend }
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: backend }
+  template:
+    metadata:
+      labels: { app: backend }
+    spec:
+      containers:
+        - name: backend
+          # Built from ./api/Dockerfile and published by
+          # .github/workflows/publish-api.yml on every merge to main.
+          image: ghcr.io/latitudesh/k8s-demo-api:v1
+          imagePullPolicy: IfNotPresent
+          env:
+            - { name: LLAMA_QWEN_URL,   value: "http://llama-qwen:8080" }
+            - { name: LLAMA_HERMES_URL, value: "http://llama-hermes:8080" }
+            - { name: REDIS_URL,        value: "redis://redis:6379/0" }
+          ports:
+            - { name: http, containerPort: 3000 }
+          readinessProbe:
+            httpGet: { path: /health, port: 3000 }
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            failureThreshold: 6
+          livenessProbe:
+            httpGet: { path: /health, port: 3000 }
+            initialDelaySeconds: 15
+            periodSeconds: 30
+          resources:
+            requests: { cpu: "100m", memory: "128Mi" }
+            limits:   { cpu: "500m", memory: "256Mi" }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: ai-demo
+spec:
+  selector: { app: backend }
+  ports:
+    - { name: http, port: 3000, targetPort: 3000 }

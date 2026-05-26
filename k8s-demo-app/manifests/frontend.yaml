@@ -1,0 +1,59 @@
+# The static assets (HTML/CSS/JS) and the nginx config are kept as ConfigMaps
+# so a reader can edit them and `kubectl apply` without building any image.
+# Use `make frontend-config` to regenerate the ConfigMaps from ../ui/.
+#
+# The ConfigMaps themselves (frontend-assets, frontend-nginx) are NOT included
+# in this YAML — apply them via the Makefile or:
+#   kubectl create cm frontend-assets -n ai-demo \
+#     --from-file=index.html=ui/index.html \
+#     --from-file=chat.css=ui/chat.css \
+#     --from-file=chat.js=ui/chat.js \
+#     --dry-run=client -o yaml | kubectl apply -f -
+#   kubectl create cm frontend-nginx -n ai-demo \
+#     --from-file=nginx.conf=ui/nginx.conf \
+#     --dry-run=client -o yaml | kubectl apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: ai-demo
+  labels: { app: frontend }
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: frontend }
+  template:
+    metadata:
+      labels: { app: frontend }
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:stable
+          ports:
+            - { name: http, containerPort: 80 }
+          volumeMounts:
+            - { name: assets,     mountPath: /usr/share/nginx/html }
+            - { name: nginx-conf, mountPath: /etc/nginx/nginx.conf, subPath: nginx.conf }
+          readinessProbe:
+            httpGet: { path: /, port: 80 }
+            periodSeconds: 5
+          resources:
+            requests: { cpu: "20m",  memory: "32Mi" }
+            limits:   { cpu: "200m", memory: "128Mi" }
+      volumes:
+        - name: assets
+          configMap:
+            name: frontend-assets
+        - name: nginx-conf
+          configMap:
+            name: frontend-nginx
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: ai-demo
+spec:
+  selector: { app: frontend }
+  ports:
+    - { name: http, port: 80, targetPort: 80 }
