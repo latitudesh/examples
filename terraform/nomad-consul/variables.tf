@@ -34,11 +34,6 @@ variable "nomad_region" {
   default = ""
 }
 
-variable "nomad_vlan_id" {
-  description = "Value of the VLAN ID (VID) to use for the Nomad/Consul instances."
-  default     = ""
-}
-
 // SSH Keys
 variable "ssh_key_id" {
   default = ""
