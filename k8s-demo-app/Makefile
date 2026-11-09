@@ -22,6 +22,8 @@ frontend-config: namespace ## Regenerate the frontend ConfigMaps from ui/
 	  --from-file=index.html=ui/index.html \
 	  --from-file=chat.css=ui/chat.css \
 	  --from-file=chat.js=ui/chat.js \
+	  --from-file=marked.min.js=ui/vendor/marked.min.js \
+	  --from-file=purify.min.js=ui/vendor/purify.min.js \
 	  --dry-run=client -o yaml | $(KUBECTL) apply -f -
 	$(KUBECTL) create cm frontend-nginx -n $(NS) \
 	  --from-file=nginx.conf=ui/nginx.conf \

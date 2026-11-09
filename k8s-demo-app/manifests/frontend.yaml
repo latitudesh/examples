@@ -8,6 +8,8 @@
 #     --from-file=index.html=ui/index.html \
 #     --from-file=chat.css=ui/chat.css \
 #     --from-file=chat.js=ui/chat.js \
+#     --from-file=marked.min.js=ui/vendor/marked.min.js \
+#     --from-file=purify.min.js=ui/vendor/purify.min.js \
 #     --dry-run=client -o yaml | kubectl apply -f -
 #   kubectl create cm frontend-nginx -n ai-demo \
 #     --from-file=nginx.conf=ui/nginx.conf \
